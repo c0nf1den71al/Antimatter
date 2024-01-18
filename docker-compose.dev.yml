@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  frontend: 
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - ${ANTIMATTER_WEB_PORT}:${ANTIMATTER_WEB_PORT}
+    env_file:
+      - .env
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./backend:/app
+    ports:
+      - ${ANTIMATTER_API_PORT}:${ANTIMATTER_API_PORT}
+    env_file:
+      - .env
+
+  # mongodb:
+
