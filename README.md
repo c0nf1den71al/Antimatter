@@ -85,21 +85,17 @@ This section lists any major frameworks/libraries used to make this project happ
 
 Todo
 
-### Prerequisites
-
-Todo
-```sh
-npm install npm@latest -g
-```
-
 ### Installation
 
-Todo
-
-1. Todo
-2. Todo
-3. Todo
-4. Todo
+1. To get started with Antimatter, first clone this GitHub repository.
+```bash
+git clone https://github.com/Antimatter-Reporting/Antimatter
+```
+2. Create a `.env` environment file and customise your Antimatter instance. Please refer to [example.env](https://github.com/Antimatter-Reporting/Antimatter/blob/main/example.env) for an example configuration.
+3. Bring up Antimatter using Docker Compose.
+```
+docker compose -f docker-compose.dev.yml
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
