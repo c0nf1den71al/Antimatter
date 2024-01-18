@@ -12,16 +12,8 @@ export function getValidChildren(children) {
   )
 }
 
-export function handleMongooseError(error) {
-  try {
-    let errorMessage = ""
-    Object.keys(error.errors).forEach((key) => {
-      if (error?.errors[key]?.message) errorMessage = error.errors[key].message
-    });
-
-    return errorMessage
-
-  } catch {
-    return error
-  }
-}
+export function stripTrailingSlash(str) {
+  return str.endsWith('/') ?
+      str.slice(0, -1) :
+      str;
+};

@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
+    "argon2": "^0.31.2",
+    "express": "^4.18.2",
+    "mongo-sanitize": "^1.1.0",
+    "mongoose": "^8.1.0"
   }
 }
