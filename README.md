@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/Antimatter-Reporting/Antimatter">
-    <!-- <img src="/images/logo.png" alt="Logo" width="250" height="100"> -->
+    <img src="/images/header.png" alt="Logo" width="250" height="100">
   </a>
   <br /><br />
   <p align="center">
