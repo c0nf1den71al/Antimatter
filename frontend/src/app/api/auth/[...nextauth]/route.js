@@ -13,7 +13,7 @@ export const authOptions = {
         }),
     ],
     session: { strategy: "jwt" },
-    secret: process.env.ANTIMATTER_SECRET,
+    secret: process.env.ANTIMATTER_TOKEN_SECRET,
     pages: {
         signIn: "/auth/login"
     },

@@ -95,9 +95,14 @@ todo
 git clone https://github.com/Antimatter-Reporting/Antimatter
 ```
 2. Create a `.env` environment file and customise your Antimatter instance. Please refer to [example.env](https://github.com/Antimatter-Reporting/Antimatter/blob/main/example.env) for an example configuration.
+
 3. Bring up Antimatter using Docker Compose.
 ```
-docker compose -f docker-compose.dev.yml
+docker compose up
+```
+or for development...
+```
+docker compose -f docker-compose.dev.yml up
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
