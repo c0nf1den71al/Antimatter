@@ -11,6 +11,8 @@ services:
       - ${ANTIMATTER_WEB_PORT}:${ANTIMATTER_WEB_PORT}
     env_file:
       - .env
+    environment:
+      - NEXTAUTH_URL=${ANTIMATTER_URL}
     depends_on:
       - backend
 

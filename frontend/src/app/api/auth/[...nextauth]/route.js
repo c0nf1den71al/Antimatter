@@ -11,14 +11,14 @@ export const authOptions = {
             },
             async authorize(credentials) {
                 try {
-                    const res = await fetch(stripTrailingSlash(process.env.ANTIMATTER_API_URL)+"/api/auth/login", {
+                    const res = await fetch(stripTrailingSlash(process.env.ANTIMATTER_API_URL) + "/api/auth/login", {
                         method: 'POST',
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ email: credentials.email, password: credentials.password })
                     })
 
                     const user = await res.json()
-                    console.log(user)
+
                     if (res.ok && user) return user
                     return null
                 } catch (error) {
@@ -28,13 +28,20 @@ export const authOptions = {
         }),
     ],
     session: { strategy: "jwt" },
-    secret: process.env.ANTIMATTER_TOKEN_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/auth/login"
     },
     callbacks: {
+        async jwt({ token, user }) {
+            if (user?.access_token) {
+                token.accessToken = user.access_token
+            }
+
+            return token;
+        },
         async session({ session, token }) {
-            session.user = { ...token }
+            session.accessToken = token.accessToken
             return session;
         },
     },
