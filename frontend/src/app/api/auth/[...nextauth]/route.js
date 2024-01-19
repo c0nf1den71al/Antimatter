@@ -5,10 +5,25 @@ import { stripTrailingSlash } from "@/lib/utils"
 export const authOptions = {
     providers: [
         CredentialsProvider({
+            credentials: {
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" },
+            },
             async authorize(credentials) {
-                const user = await fetch(stripTrailingSlash(process.env.ANTIMATER_API_URL)+"/api/auth/login", {body: JSON.stringify(credentials)})
-                // const user = { "email": "john.doe@example.com", "name": "John Doe" }
-                return user
+                try {
+                    const res = await fetch(stripTrailingSlash(process.env.ANTIMATTER_API_URL)+"/api/auth/login", {
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: credentials.email, password: credentials.password })
+                    })
+
+                    const user = await res.json()
+                    console.log(user)
+                    if (res.ok && user) return user
+                    return null
+                } catch (error) {
+                    console.log(error)
+                }
             },
         }),
     ],
@@ -18,10 +33,10 @@ export const authOptions = {
         signIn: "/auth/login"
     },
     callbacks: {
-        async session({ session }) {
-            // Get information and add to the session if needed
-            return session
-        }
+        async session({ session, token }) {
+            session.user = { ...token }
+            return session;
+        },
     },
 }
 
