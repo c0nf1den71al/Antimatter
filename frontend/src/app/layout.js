@@ -1,8 +1,12 @@
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import './globals.css'
 
+import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from '@/providers/auth-provider';
+import { DataProvider } from '@/providers/data-hook';
+
+
+import './globals.css'
 
 export const metadata = {
   title: 'Antimatter',
@@ -14,7 +18,10 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <AuthProvider>
-          {children}
+          <DataProvider>
+            {children}
+            <Toaster />
+          </DataProvider>
         </AuthProvider>
       </body>
     </html>
