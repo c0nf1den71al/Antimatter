@@ -8,7 +8,7 @@ export const Breadcrumb = (
     {
       children,
       className,
-      separator = <ChevronRight className="h-4 w-4 rtl:rotate-180" />,
+      separator = <ChevronRight className="h-4 w-4" />,
       addSeparator = true,
       ...props
     },
@@ -35,8 +35,8 @@ export const Breadcrumb = (
     )
   }
 )
-
 Breadcrumb.displayName = "Breadcrumb"
+
 
 export const BreadcrumbItem = (
   (
@@ -80,7 +80,6 @@ export const BreadcrumbItem = (
     )
   }
 )
-
 BreadcrumbItem.displayName = "BreadcrumbItem"
 
 export const BreadcrumbLink = (({ className, as: asComp, isCurrentPage, ...props }, forwardedRef) => {
@@ -98,8 +97,8 @@ export const BreadcrumbLink = (({ className, as: asComp, isCurrentPage, ...props
     />
   )
 })
-
 BreadcrumbLink.displayName = "BreadcrumbLink"
+
 
 export const BreadcrumbSeparator = (({ className, ...props }, forwardedRef) => {
   return (
@@ -111,5 +110,4 @@ export const BreadcrumbSeparator = (({ className, ...props }, forwardedRef) => {
     />
   )
 })
-
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"

@@ -6,7 +6,7 @@ import { Orbit } from "lucide-react"
 export function NavigationLinks() {
     const path = usePathname()
     return (
-        <nav className="mr-6 lg:mr-8 flex items-center space-x-4 lg:space-x-6">
+        <nav className="mr-6 flex items-center space-x-4 lg:space-x-6">
             <Link href="/dashboard">
                 <Orbit className="h-6" />
             </Link>
