@@ -13,6 +13,9 @@ export const DataProvider = ({ children }) => {
     const [clients, setClients] = useState([])
     const [loadingClients, setLoadingClients] = useState(true)
 
+    const [vulnerabilities, setVulnerabilities] = useState([])
+    const [loadingVulnerabilities, setLoadingVulnerabilities] = useState(true)
+
 
     useEffect(() => {
         async function getEngagements() {
@@ -53,13 +56,33 @@ export const DataProvider = ({ children }) => {
             }
         }
 
+        const getVulnerabilities = async () => {
+            try {
+                const session = await getSession()
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/vulnerabilities", {
+                    headers: {
+                        "Authorization": `Bearer ${session.accessToken}`,
+                    }
+                }).then((res) => res.json())
+                .then((data) => {
+                    setVulnerabilities(data)
+                })
+            } catch(error) {
+                console.log(error)
+                setVulnerabilities([]);
+            } finally {
+                setLoadingVulnerabilities(false)
+            }
+        }
+
         getEngagements();
-        getClients() 
+        getClients();
+        getVulnerabilities();
         },[])
 
 
     return (
-        <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients }}>
+        <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities }}>
             {children}
         </DataContext.Provider>
         )

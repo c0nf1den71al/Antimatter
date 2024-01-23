@@ -34,14 +34,14 @@ import { getSession } from "next-auth/react"
 
 import { stripTrailingSlash } from "@/lib/utils";
 
-export function CreateDialog({ clients }) {
+export function CreateDialog() {
     const { toast } = useToast()
-    const { engagements, setEngagements } = useData()
+    const { vulnerabilities, setVulnerabilities } = useData()
     const form = useForm()
 
     async function onSubmit(values) {
         const session = await getSession()
-        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", { 
+        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/vulnerabilities", { 
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,
@@ -51,59 +51,47 @@ export function CreateDialog({ clients }) {
         }).then((res) => res.json())
         .then((data) => {
             form.reset()
-            const client = clients.find((client) => client._id == values.client)
-            data.clientLongName = client.longName
-            data.clientShortName = client?.shortName
-            setEngagements([...engagements, data])
-            toast({ description: `Engagement "${data.engagementCode}" has been created successfully.` })
+            setVulnerabilities([...vulnerabilities, data])
+            toast({ description: `Engagement "${data.vulnerabilityCode}" has been created successfully.` })
         })
     }
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="ml-3">Create Engagement</Button>
+                <Button className="ml-3">Create Vulnerability</Button>
             </DialogTrigger>
             <DialogContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <DialogHeader>
-                            <DialogTitle>Create Engagement</DialogTitle>
+                            <DialogTitle>Create Vulnerability</DialogTitle>
                             <DialogDescription>
-                                Complete the form below to create a new engagement.
+                                Complete the form below to create a new vulnerability.
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
                             <FormField
                                 control={form.control}
-                                name="engagementCode"
+                                name="vulnerabilityCode"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Engagement Code</FormLabel>
+                                        <FormLabel>Vulnerability Code</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="AM-ACME-01" {...field} />
+                                            <Input placeholder="VULN-WEB-01" {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
-                                name="client"
+                                name="title"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Client</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select a client..." />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {clients && clients.map((client) => {
-                                                    return <SelectItem value={client._id} key={client._id}>{client.longName}</SelectItem>
-                                                })}
-                                            </SelectContent>
-                                        </Select>
+                                        <FormLabel>Vulnerability Title</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Remote Code Execution via SQL Injection" {...field} />
+                                        </FormControl>
                                     </FormItem>
                                 )}
                             />

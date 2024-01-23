@@ -35,7 +35,7 @@ import { useData } from "@/providers/data-provider"
 
 
 export function EngagementsTable({ columns }) {
-    const { engagements, loadingEngagements, clients, loadingClients } = useData()
+    const { engagements, loadingEngagements, clients } = useData()
 
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])

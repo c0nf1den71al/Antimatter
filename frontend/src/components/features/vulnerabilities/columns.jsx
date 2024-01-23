@@ -8,11 +8,6 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    DropdownMenuSub,
-    DropdownMenuSubTrigger,
-    DropdownMenuSubContent,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
     DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu"
 
@@ -43,14 +38,14 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "identifier",
+        accessorKey: "vulnerabilityCode",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Identifier
+                    Vulnerability Code
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -58,7 +53,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4 uppercase">{originalRow.identifier}</p>
+                <p className="pl-4 uppercase">{originalRow.vulnerabilityCode}</p>
             )
         }
     },
@@ -78,19 +73,19 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="text-gray-700 pl-4">{originalRow.category}</p>
+                <p className="text-gray-700 pl-4">{originalRow?.category ? originalRow.category : "No Category"}</p>
             )
         }
     },
     {
-        accessorKey: "name",
+        accessorKey: "title",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Name
+                    Title
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -98,7 +93,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.name}</p>
+                <p className="pl-4">{originalRow.title}</p>
             )
         },
     },

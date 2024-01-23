@@ -29,7 +29,14 @@ import {
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu"
 
+import { Loader2 } from "lucide-react"
+
+import { CreateDialog } from "@/components/features/vulnerabilities/create-dialog"
+import { useData } from "@/providers/data-provider"
+
 export function VulnerabilitiesTable({ columns, data }) {
+    const { vulnerabilities, loadingVulnerabilities } = useData()
+
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])
     const [sorting, setSorting] = useState([])
@@ -37,7 +44,7 @@ export function VulnerabilitiesTable({ columns, data }) {
     const router = useRouter()
 
     const table = useReactTable({
-        data,
+        data: vulnerabilities,
         columns,
         onRowSelectionChange: setRowSelection,
         getCoreRowModel: getCoreRowModel(),
@@ -60,9 +67,9 @@ export function VulnerabilitiesTable({ columns, data }) {
             <div className="flex items-center pb-4">
                 <Input
                     placeholder="Search vulnerabilities..."
-                    value={(table.getColumn("name")?.getFilterValue()) ?? ""}
+                    value={(table.getColumn("title")?.getFilterValue()) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("name")?.setFilterValue(event.target.value)
+                        table.getColumn("title")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
@@ -94,9 +101,7 @@ export function VulnerabilitiesTable({ columns, data }) {
                             })}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <Button className="ml-3">
-                    Create Vulnerability
-                </Button>
+                <CreateDialog />
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -137,7 +142,7 @@ export function VulnerabilitiesTable({ columns, data }) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    {loadingVulnerabilities ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin"/></div> : "No results."}
                                 </TableCell>
                             </TableRow>
                         )}
