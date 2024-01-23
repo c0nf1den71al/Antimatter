@@ -78,7 +78,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.client}</p>
+                <p className="pl-4">{originalRow?.clientShortName ? originalRow.clientShortName : originalRow.clientLongName}</p>
             )
         },
     },
@@ -98,7 +98,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.startDate}</p>
+                <p className="pl-4">{originalRow.startDate ? new Date(originalRow.startDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
             )
         },
     },
@@ -118,7 +118,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.endDate}</p>
+                <p className="pl-4">{originalRow.endDate ? new Date(originalRow.endDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
             )
         },
     },

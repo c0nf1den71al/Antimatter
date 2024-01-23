@@ -3,7 +3,7 @@ const Client = require('../models/Client')
 module.exports.getClients = async (req, res) => {
     try {
         const clients = await Client.find({})
-        return res.json({clients})
+        return res.json(clients)
     } catch (e) {
         return res.json({error: "An error occured"}).status(500)
     }   

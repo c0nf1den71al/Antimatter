@@ -29,20 +29,32 @@ import {
 
 import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form"
-import { useData } from "@/providers/data-hook"
+import { useData } from "@/providers/data-provider"
+import { getSession } from "next-auth/react"
+
+import { stripTrailingSlash } from "@/lib/utils";
 
 export function CreateDialog({ clients }) {
     const { toast } = useToast()
     const { engagements, setEngagements } = useData()
     const form = useForm()
 
-    function onSubmit(values) {
-        fetch(window.location.origin + "/api/engagements", { method: "PUT", credentials: "include", body: JSON.stringify(values) }).then((res) => res.json())
+    async function onSubmit(values) {
+        console.log(values)
+        const session = await getSession()
+        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", { 
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${session.accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        }).then((res) => res.json())
         .then((data) => {
             form.reset()
             const client = clients.find((client) => client._id == values.client)
-            data.clientNameLong = client.longName
-            data.clientNameShort = client?.shortName
+            data.clientLongName = client.longName
+            data.clientShortName = client?.shortName
             setEngagements([...engagements, data])
             toast({ description: `Engagement "${data.engagementCode}" has been created successfully.` })
         })

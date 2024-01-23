@@ -11,6 +11,8 @@ services:
       - .env
     environment:
       - NEXTAUTH_URL=${ANTIMATTER_URL}
+      - NEXT_PUBLIC_ANTIMATTER_API_URL=${ANTIMATTER_API_URL}
+
     depends_on:
       - backend
 

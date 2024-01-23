@@ -28,13 +28,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { Loader2 } from "lucide-react"
+
 import { CreateDialog } from "@/components/features/engagements/create-dialog"
-import { useData } from "@/providers/data-hook"
+import { useData } from "@/providers/data-provider"
 
 
 export function EngagementsTable({ columns }) {
     const { engagements, loadingEngagements, clients, loadingClients } = useData()
-    
+
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])
     const [sorting, setSorting] = useState([])
@@ -140,7 +142,7 @@ export function EngagementsTable({ columns }) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    {loadingEngagements ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin"/></div> : "No results."}
                                 </TableCell>
                             </TableRow>
                         )}

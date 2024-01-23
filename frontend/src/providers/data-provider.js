@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
+import { stripTrailingSlash } from "@/lib/utils";
 
 const DataContext = createContext(null);
 
@@ -17,10 +18,9 @@ export const DataProvider = ({ children }) => {
         async function getEngagements() {
             try {
                 const session = await getSession()
-
-                fetch("/api/engagements?showClientName=true", {
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/engagements?showClientName=true", {
                     headers: {
-                        "Authorization": "Bearer",
+                        "Authorization": `Bearer ${session.accessToken}`,
                     }
                 }).then((res) => res.json())
                 .then((data) => {
@@ -36,7 +36,12 @@ export const DataProvider = ({ children }) => {
 
         const getClients = async () => {
             try {
-                fetch("/api/clients", {credentials: "include"}).then((res) => res.json())
+                const session = await getSession()
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/clients", {
+                    headers: {
+                        "Authorization": `Bearer ${session.accessToken}`,
+                    }
+                }).then((res) => res.json())
                 .then((data) => {
                     setClients(data)
                 })
@@ -50,7 +55,7 @@ export const DataProvider = ({ children }) => {
 
         getEngagements();
         getClients() 
-        }, [])
+        },[])
 
 
     return (

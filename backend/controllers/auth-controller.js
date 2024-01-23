@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const createToken = (id, email, role) => {
     return jwt.sign({ id, email, role }, process.env.ANTIMATTER_TOKEN_SECRET, {
-        expiresIn: process.env.ANTIMATTER_TOKEN_AGE
+        // expiresIn: process.env.ANTIMATTER_TOKEN_AGE -- DOESNT WORK?
+        expiresIn: 86400
     });
 };
 

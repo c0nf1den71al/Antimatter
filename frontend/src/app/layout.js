@@ -3,8 +3,7 @@ import { GeistMono } from 'geist/font/mono';
 
 import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from '@/providers/auth-provider';
-import { DataProvider } from '@/providers/data-hook';
-
+import { DataProvider } from '@/providers/data-provider';
 
 import './globals.css'
 

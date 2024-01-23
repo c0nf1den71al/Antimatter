@@ -1,9 +1,16 @@
 const express = require("express");
+const cors = require("cors")
 const app = express();
+
+
 const database = require("./lib/mongoose");
 const mongoSeed = require("./lib/mongo-seed")
+const { stripTrailingSlash } = require("./lib/utils")
 
 // Initial config
+app.use(cors({
+    origin: stripTrailingSlash(process.env.ANTIMATTER_URL)
+}))
 app.use(express.json());
 mongoSeed()
 
