@@ -50,7 +50,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<!-- ![Antimatter Screen Shot](/images/screenshot.png) -->
+![Antimatter Screen Shot](/images/engagements-table.png)
 
 Introducing Antimatter...
 
