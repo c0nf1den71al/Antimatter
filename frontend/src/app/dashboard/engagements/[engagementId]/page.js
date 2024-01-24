@@ -3,10 +3,11 @@ import { EngagementsTable } from "@/components/features/engagements/engagements-
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 
 export const metadata = {
-    title: "Antimatter - Engagements"
+    title: "Antimatter - Engagement"
 }
 
-export default async function Engagements() {
+export default async function Engagement({ params }) {
+
     const breadcrumbItems = [
         {
             title: "Dashboard",
@@ -14,16 +15,19 @@ export default async function Engagements() {
         },
         {
             title: "Engagements",
-            href: "/dashboard/engagements",
+            href: "/dashboard/engagements"
+        },
+        {
+            title: params.engagementId,
             isCurrentPage: true
         }
     ]
-    
+
     return (
         <>
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex py-5 flex-col">
-                <EngagementsTable columns={columns} />
+                {/* <EngagementsTable columns={columns} /> */}
             </div>
         </>
     )
