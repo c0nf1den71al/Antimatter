@@ -1,6 +1,7 @@
 import { columns } from "@/components/features/engagements/columns"
 import { EngagementsTable } from "@/components/features/engagements/engagements-table"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
+import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
 
 export const metadata = {
     title: "Antimatter - Engagement"
@@ -23,11 +24,31 @@ export default async function Engagement({ params }) {
         }
     ]
 
+    const sidebarNavItems = [
+        {
+            title: "Overview",
+            href: `/dashboard/engagements/${params.engagementId}`,
+        },
+        {
+            title: "Executive Summary",
+            href: `/dashboard/engagements/${params.engagementId}/summary`,
+        },
+        {
+            title: "Findings",
+            href: `/dashboard/engagements/${params.engagementId}/findings`,
+        }
+    ]
+
     return (
         <>
             <Breadcrumbs items={breadcrumbItems} />
-            <div className="flex py-5 flex-col">
-                {/* <EngagementsTable columns={columns} /> */}
+            <div className="flex py-5 flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+                <aside className="-mx-4 lg:w-1/6">
+                    <SidebarNavigation items={sidebarNavItems} />
+                </aside>
+                <div className="flex-1">
+                    {/* <DataTable columns={columns} data={data}/> */}
+                </div>
             </div>
         </>
     )

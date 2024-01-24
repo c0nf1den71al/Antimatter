@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-
+import { Button } from "@/components/ui/button"
+import { PlusCircle } from "lucide-react"
 
 export function SidebarNavigation({ className, items, ...props }) {
   const pathname = usePathname()
@@ -33,6 +34,9 @@ export function SidebarNavigation({ className, items, ...props }) {
           {item.title}
         </Link>
       ))}
+      <Button variant="outline">
+          <PlusCircle className="h-5 pr-2"/> New Section
+        </Button>
     </nav>
   )
 }
