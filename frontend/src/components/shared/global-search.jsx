@@ -4,19 +4,12 @@ import { Search, Route, Building2, Bug } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
 
 import {
     Card,
     CardContent
 } from "@/components/ui/card"
-
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
-
 
 import {
     Dialog,
@@ -33,9 +26,12 @@ import { useState } from "react"
 export function GlobalSearch() {
     const { engagements, clients, vulnerabilities } = useData()
 
+    const [searchText, setSearchText] = useState("")
     const [searchResults, setSearchResults] = useState([])
+    const [open, setOpen] = useState(false)
 
     const processSearch = (e) => {
+        setSearchText(e.target.value)
         if (e.target.value == "") return setSearchResults([])
         const engagementResults = engagements.filter((engagement) => engagement.engagementCode.toUpperCase().includes(e.target.value.toUpperCase())).map((engagement) => ({ ...engagement, type: "engagement" }))
         const clientResults = clients.filter((client) => client.longName.toUpperCase().includes(e.target.value.toUpperCase()) || client.shortName.toUpperCase().includes(e.target.value.toUpperCase())).map((client) => ({ ...client, type: "client" }))
@@ -45,9 +41,9 @@ export function GlobalSearch() {
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="ghost" size="icon"><Search className="h-5" /></Button>
+                <Button variant="ghost" size="icon" className="cursor-pointer"><Search className="h-5" /></Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
@@ -57,40 +53,46 @@ export function GlobalSearch() {
                     </DialogDescription>
                 </DialogHeader>
                 <div>
-                    <Input onChange={processSearch} placeholder="Search..." />
+                    <Input value={searchText} onChange={processSearch} placeholder="Search..." />
                     <Separator className="my-5" />
                     <div className="flex flex-col gap-3 max-h-72 overflow-y-scroll">
                         {searchResults.length > 0 ? searchResults.map((result) => {
                             return result.type === "engagement" ? (
-                                <Card className="cursor-pointer hover:bg-muted">
-                                    <CardContent className="p-3 flex flex-row items-center">
-                                        <Route className="h-5" />
-                                        <div className="pl-3">
-                                            <p className="font-bold text-sm">Engagement</p>
-                                            {result.engagementCode}
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                <Link href={`/dashboard/engagements/${result._id}`} onClick={() => setOpen(false)}>
+                                    <Card className="cursor-pointer hover:bg-muted">
+                                        <CardContent className="p-3 flex flex-row items-center">
+                                            <Route className="h-5" />
+                                            <div className="pl-3">
+                                                <p className="font-bold text-sm">Engagement</p>
+                                                {result.engagementCode}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
                             ) : result.type === "client" ? (
-                                <Card className="cursor-pointer hover:bg-muted">
-                                    <CardContent className="p-3 flex flex-row items-center">
-                                        <Building2 className="h-5" />
-                                        <div className="pl-3">
-                                            <p className="font-bold text-sm">Client</p>
-                                            {result?.shortName || result?.longName}
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                <Link href={`/dashboard/clients/${result._id}`} onClick={() => setOpen(false)}>
+                                    <Card className="cursor-pointer hover:bg-muted">
+                                        <CardContent className="p-3 flex flex-row items-center">
+                                            <Building2 className="h-5" />
+                                            <div className="pl-3">
+                                                <p className="font-bold text-sm">Client</p>
+                                                {result?.shortName || result?.longName}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
                             ) : result.type === "vulnerability" ? (
-                                <Card className="cursor-pointer hover:bg-muted">
-                                    <CardContent className="p-3 flex flex-row items-center">
-                                        <Bug className="h-5" />
-                                        <div className="pl-3">
-                                            <p className="font-bold text-sm">Vulnerability</p>
-                                            {result.title}
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                <Link href={`/dashboard/vulnerabilities/${result._id}`} onClick={() => setOpen(false)}>
+                                    <Card className="cursor-pointer hover:bg-muted">
+                                        <CardContent className="p-3 flex flex-row items-center">
+                                            <Bug className="h-5" />
+                                            <div className="pl-3">
+                                                <p className="font-bold text-sm">Vulnerability</p>
+                                                {result.title}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
                             ) : null
                         }) : <p className="text-center">No Results.</p>}
                     </div>

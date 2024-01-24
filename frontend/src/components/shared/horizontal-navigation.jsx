@@ -12,7 +12,7 @@ export async function Navigation() {
             <div className="flex h-16 items-center px-4">
                 <NavigationLinks />
                 <div className="ml-auto flex items-center space-x-4">
-                    <GlobalSearch placeholder="Search..."/>
+                    <GlobalSearch />
                     <AccountDropdown session={session}/>
                 </div>
             </div>
