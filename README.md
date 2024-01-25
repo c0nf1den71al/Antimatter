@@ -52,12 +52,9 @@
 ## About The Project
 ![Antimatter Screen Shot](/images/engagements-table.png)
 
-Introducing Antimatter...
+Introducing Antimatter,a report writing and vulnerability management platform.
 
-But why?:
-* Unlike other solutions, Antimatter aims to... 
-* Todo
-* Todo
+But why? Unlike other solutions, Antimatter aims to be easy to use, featuring a clean, bug-free interface.
 
 Todo
 
@@ -123,10 +120,7 @@ Todo
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Finish application using static content
-- [ ] Connect application to database
 - [ ] Documentation
-- [ ] Cleanup components directory
 - [ ] Collaboration features
 - [ ] Multi-language support
 
