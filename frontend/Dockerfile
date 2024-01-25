@@ -11,4 +11,4 @@ COPY . .
 # Note: Don't expose ports here, Compose will handle that for us
 
 RUN npm run build
-CMD npm run start
+CMD node .next/standalone/server.js

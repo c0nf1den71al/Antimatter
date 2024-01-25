@@ -179,7 +179,7 @@ export const columns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
                         <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier)}}>Copy engagement identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.findingIdentifier)}}>Copy identifier</DropdownMenuItem>
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>

@@ -82,7 +82,7 @@ export function CreateDialog({ clients }) {
                                     <FormItem>
                                         <FormLabel>Engagement Identifier</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="AM-ACME-01" {...field} />
+                                            <Input placeholder="AM-ACME-01" {...field} autoComplete="off" data-1p-ignore />
                                         </FormControl>
                                     </FormItem>
                                 )}

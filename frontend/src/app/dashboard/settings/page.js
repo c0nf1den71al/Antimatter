@@ -1,9 +1,7 @@
-import { columns } from "@/components/features/vulnerabilities/columns"
-import { VulnerabilitiesTable } from "@/components/features/vulnerabilities/vulnerabilities-table"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 
 export const metadata = {
-    title: "Antimatter - Vulnerabilities"
+    title: "Antimatter - Settings"
 }
 
 const breadcrumbItems = [
@@ -12,18 +10,18 @@ const breadcrumbItems = [
         href: "/dashboard",
     },
     {
-        title: "Vulnerabilities",
-        href: "/dashboard/vulnerabilities",
+        title: "Settings",
+        href: "/dashboard/settings",
         isCurrentPage: true
     }
 ]
 
-export default async function Vulnerabilities() {
+export default async function Settings() {
+
     return (
         <>
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex pt-10 pb-5 flex-col">
-                <VulnerabilitiesTable columns={columns}/>
             </div>
         </>
     )

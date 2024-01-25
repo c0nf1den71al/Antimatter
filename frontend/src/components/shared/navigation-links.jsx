@@ -24,6 +24,12 @@ export function NavigationLinks() {
                 Vulnerabilities
             </Link>
             <Link
+                href="/dashboard/clients"
+                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("clients") ? "" : "text-muted-foreground"}`}
+            >
+                Clients
+            </Link>
+            <Link
                 href="/dashboard/templates"
                 className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("templates") ? "" : "text-muted-foreground"}`}
             >

@@ -59,7 +59,7 @@ export function GlobalSearch() {
                     <div className="flex flex-col gap-3 max-h-72 overflow-y-scroll">
                         {searchResults.length > 0 ? searchResults.map((result) => {
                             return result.type === "engagement" ? (
-                                <Link href={`/dashboard/engagements/${result._id}`} onClick={() => setOpen(false)}>
+                                <Link key={result._id} href={`/dashboard/engagements/${result._id}`} onClick={() => setOpen(false)}>
                                     <Card className="cursor-pointer hover:bg-muted">
                                         <CardContent className="p-3 flex flex-row items-center">
                                             <Route className="h-5" />
@@ -71,7 +71,7 @@ export function GlobalSearch() {
                                     </Card>
                                 </Link>
                             ) : result.type === "client" ? (
-                                <Link href={`/dashboard/clients/${result._id}`} onClick={() => setOpen(false)}>
+                                <Link key={result._id} href={`/dashboard/clients/${result._id}`} onClick={() => setOpen(false)}>
                                     <Card className="cursor-pointer hover:bg-muted">
                                         <CardContent className="p-3 flex flex-row items-center">
                                             <Building2 className="h-5" />
@@ -83,7 +83,7 @@ export function GlobalSearch() {
                                     </Card>
                                 </Link>
                             ) : result.type === "vulnerability" ? (
-                                <Link href={`/dashboard/vulnerabilities/${result._id}`} onClick={() => setOpen(false)}>
+                                <Link key={result._id} href={`/dashboard/vulnerabilities/${result._id}`} onClick={() => setOpen(false)}>
                                     <Card className="cursor-pointer hover:bg-muted">
                                         <CardContent className="p-3 flex flex-row items-center">
                                             <Bug className="h-5" />

@@ -6,13 +6,12 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - ${ANTIMATTER_WEB_PORT}:${ANTIMATTER_WEB_PORT}
+      - ${ANTIMATTER_WEB_PORT}:3000
     env_file:
       - .env
     environment:
       - NEXTAUTH_URL=${ANTIMATTER_URL}
       - NEXT_PUBLIC_ANTIMATTER_API_URL=${ANTIMATTER_API_URL}
-
     depends_on:
       - backend
 

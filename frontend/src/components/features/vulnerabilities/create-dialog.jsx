@@ -78,7 +78,7 @@ export function CreateDialog() {
                                     <FormItem>
                                         <FormLabel>Vulnerability Identifier</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="VULN-WEB-01" {...field} />
+                                            <Input placeholder="VULN-WEB-01" {...field} autoComplete="off" data-1p-ignore />
                                         </FormControl>
                                     </FormItem>
                                 )}

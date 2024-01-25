@@ -1,4 +1,5 @@
 "use client"
+
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,8 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export function AccountDropdown({session}) {
+    const router = useRouter()
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -35,7 +39,7 @@ export function AccountDropdown({session}) {
                     <DropdownMenuItem>
                         Account
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
                         Settings
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
