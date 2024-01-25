@@ -52,7 +52,7 @@ export function CreateDialog() {
         .then((data) => {
             form.reset()
             setVulnerabilities([...vulnerabilities, data])
-            toast({ description: `Engagement "${data.vulnerabilityCode}" has been created successfully.` })
+            toast({ description: `Engagement "${data.vulnerabilityIdentifier}" has been created successfully.` })
         })
     }
 
@@ -73,10 +73,10 @@ export function CreateDialog() {
                         <div className="grid gap-4 py-4">
                             <FormField
                                 control={form.control}
-                                name="vulnerabilityCode"
+                                name="vulnerabilityIdentifier"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Vulnerability Code</FormLabel>
+                                        <FormLabel>Vulnerability Identifier</FormLabel>
                                         <FormControl>
                                             <Input placeholder="VULN-WEB-01" {...field} />
                                         </FormControl>

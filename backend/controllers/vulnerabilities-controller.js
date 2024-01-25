@@ -11,10 +11,10 @@ module.exports.getVulnerabilities = async (req, res) => {
 
 module.exports.createVulnerability = async (req, res) => {
     try {
-        const { vulnerabilityCode=undefined, title=undefined } = req.body;
-        if (!title || !vulnerabilityCode) return res.json({error: "'vulnerabilityCode' and 'title' are required."})
+        const { vulnerabilityIdentifier=undefined, title=undefined } = req.body;
+        if (!title || !vulnerabilityIdentifier) return res.json({error: "'vulnerabilityIdentifier' and 'title' are required."})
         const client = await Vulnerability.create({
-            vulnerabilityCode,
+            vulnerabilityIdentifier,
             title
         })
         return res.json(client)

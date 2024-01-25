@@ -22,7 +22,7 @@ export default async function Engagements() {
     return (
         <>
             <Breadcrumbs items={breadcrumbItems} />
-            <div className="flex py-5 flex-col">
+            <div className="flex pt-10 pb-5 flex-col">
                 <EngagementsTable columns={columns} />
             </div>
         </>

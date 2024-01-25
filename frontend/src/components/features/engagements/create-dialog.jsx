@@ -40,6 +40,7 @@ export function CreateDialog({ clients }) {
     const form = useForm()
 
     async function onSubmit(values) {
+        console.log(values)
         const session = await getSession()
         fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", { 
             method: "PUT",
@@ -55,7 +56,7 @@ export function CreateDialog({ clients }) {
             data.clientLongName = client.longName
             data.clientShortName = client?.shortName
             setEngagements([...engagements, data])
-            toast({ description: `Engagement "${data.engagementCode}" has been created successfully.` })
+            toast({ description: `Engagement "${data.engagementIdentifier}" has been created successfully.` })
         })
     }
 
@@ -76,10 +77,10 @@ export function CreateDialog({ clients }) {
                         <div className="grid gap-4 py-4">
                             <FormField
                                 control={form.control}
-                                name="engagementCode"
+                                name="engagementIdentifier"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Engagement Code</FormLabel>
+                                        <FormLabel>Engagement Identifier</FormLabel>
                                         <FormControl>
                                             <Input placeholder="AM-ACME-01" {...field} />
                                         </FormControl>

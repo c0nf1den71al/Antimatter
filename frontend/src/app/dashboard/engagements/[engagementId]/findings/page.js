@@ -1,9 +1,10 @@
+import { columns } from "@/components/features/engagement/columns"
+import { FindingsTable } from "@/components/features/engagement/findings-table"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
-import { EngagementDetails } from "@/components/features/engagement/engagement-details"
 
 export const metadata = {
-    title: "Antimatter - Engagement"
+    title: "Antimatter - Findings"
 }
 
 export default async function Engagement({ params }) {
@@ -19,6 +20,10 @@ export default async function Engagement({ params }) {
         },
         {
             title: params.engagementId,
+            href: `/dashboard/engagements/${params.engagementId}`
+        },
+        {
+            title: "Findings",
             isCurrentPage: true
         }
     ]
@@ -46,7 +51,7 @@ export default async function Engagement({ params }) {
                     <SidebarNavigation items={sidebarNavItems} />
                 </aside>
                 <div className="flex-1">
-                    <EngagementDetails engagementId={params.engagementId }/>
+                    <FindingsTable engagementId={params.engagementId} columns={columns} />
                 </div>
             </div>
         </>

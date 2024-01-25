@@ -42,7 +42,6 @@ export function EngagementsTable({ columns }) {
     const [sorting, setSorting] = useState([])
     const [columnVisibility, setColumnVisibility] = useState({})
     const router = useRouter()
-
     const table = useReactTable({
         data: engagements,
         columns,
@@ -67,9 +66,9 @@ export function EngagementsTable({ columns }) {
             <div className="flex items-center pb-4">
                 <Input
                     placeholder="Search engagements..."
-                    value={(table.getColumn("engagementCode")?.getFilterValue()) ?? ""}
+                    value={(table.getColumn("engagementIdentifier")?.getFilterValue()) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("engagementCode")?.setFilterValue(event.target.value)
+                        table.getColumn("engagementIdentifier")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />

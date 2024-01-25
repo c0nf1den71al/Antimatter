@@ -43,14 +43,14 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "engagementCode",
+        accessorKey: "findingIdentifier",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Engagement Code
+                    Finding Identifier
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -58,19 +58,19 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.engagementCode}</p>
+                <p className="pl-4">{originalRow.findingIdentifier}</p>
             )
         },
     },
     {
-        accessorKey: "client",
+        accessorKey: "title",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Client
+                    Title
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -78,47 +78,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow?.clientShortName ? originalRow.clientShortName : originalRow.clientLongName}</p>
-            )
-        },
-    },
-    {
-        accessorKey: "startDate",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Start Date
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => {
-            const originalRow = row.original
-            return (
-                <p className="pl-4">{originalRow.startDate ? new Date(originalRow.startDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
-            )
-        },
-    },
-    {
-        accessorKey: "endDate",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    End Date
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => {
-            const originalRow = row.original
-            return (
-                <p className="pl-4">{originalRow.endDate ? new Date(originalRow.endDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
+                <p className="pl-4">{originalRow.title}</p>
             )
         },
     },
@@ -137,12 +97,56 @@ export const columns = [
         },
         cell: ({ row }) => {
             const originalRow = row.original
+            return (
+                <p className="pl-4">{originalRow.status}</p>
+            )
+        },
+    },
+    {
+        accessorKey: "severity",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Severity
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const originalRow = row.original
 
-            if (originalRow.status === "complete") {
+            if (originalRow.severity === "critical") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-green-100 rounded px-2 py-1/2">
-                            <p className="text-green-700 uppercase">{originalRow.status}</p>
+                        <div className="bg-purple-100 rounded px-2 py-1/2">
+                            <p className="text-purple-700 uppercase">{originalRow.severity}</p>
+                        </div>
+                    </div>
+                )
+            } else if (originalRow.severity === "high") {
+                return (
+                    <div className="flex pl-4">
+                        <div className="bg-red-100 rounded px-2 py-1/2">
+                            <p className="text-red-700 uppercase">{originalRow.severity}</p>
+                        </div>
+                    </div>
+                )
+            } else if (originalRow.severity === "medium") {
+                return (
+                    <div className="flex pl-4">
+                        <div className="bg-amber-100 rounded px-2 py-1/2">
+                            <p className="text-amber-700 uppercase">{originalRow.severity}</p>
+                        </div>
+                    </div>
+                )
+            } else if (originalRow.severity === "low") {
+                return (
+                    <div className="flex pl-4">
+                        <div className="bg-blue-100 rounded px-2 py-1/2">
+                            <p className="text-blue-700 uppercase">{originalRow.severity}</p>
                         </div>
                     </div>
                 )
@@ -150,7 +154,7 @@ export const columns = [
                 return (
                     <div className="flex pl-4">
                         <div className="bg-gray-100 rounded px-2 py-1/2">
-                            <p className="text-gray-700 uppercase">{originalRow.status}</p>
+                            <p className="text-gray-700 uppercase">{originalRow.severity}</p>
                         </div>
                     </div>
                 )
@@ -175,7 +179,7 @@ export const columns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
                         <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementCode)}}>Copy engagement code</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier)}}>Copy engagement identifier</DropdownMenuItem>
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>

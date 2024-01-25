@@ -30,22 +30,24 @@ import {
 
 import { Loader2 } from "lucide-react"
 
-import { CreateDialog } from "@/components/features/engagements/create-dialog"
+import { CreateDialog } from "@/components/features/engagement/create-dialog"
 import { useData } from "@/providers/data-provider"
 
 
-export function EngagementsTable({ columns }) {
-    const { engagements, loadingEngagements, clients } = useData()
+export function FindingsTable({ engagementId, columns }) {
+    const { engagements, loadingEngagements } = useData()
 
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])
     const [sorting, setSorting] = useState([])
     const [columnVisibility, setColumnVisibility] = useState({})
     const router = useRouter()
+    
+    const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
     const table = useReactTable({
-        data: engagements,
-        columns,
+        data: engagement?.findings ? engagement.findings : [],
+        columns: columns,
         onRowSelectionChange: setRowSelection,
         getCoreRowModel: getCoreRowModel(),
         onSortingChange: setSorting,
@@ -66,10 +68,10 @@ export function EngagementsTable({ columns }) {
         <div>
             <div className="flex items-center pb-4">
                 <Input
-                    placeholder="Search engagements..."
-                    value={(table.getColumn("engagementCode")?.getFilterValue()) ?? ""}
+                    placeholder="Search findings..."
+                    value={(table.getColumn("title")?.getFilterValue()) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("engagementCode")?.setFilterValue(event.target.value)
+                        table.getColumn("title")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
@@ -101,7 +103,7 @@ export function EngagementsTable({ columns }) {
                             })}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <CreateDialog clients={clients}/>
+                <CreateDialog />
             </div>
             <div className="rounded-md border">
                 <Table>

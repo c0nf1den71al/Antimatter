@@ -43,14 +43,14 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "engagementCode",
+        accessorKey: "engagementIdentifier",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Engagement Code
+                    Engagement Identifier
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -58,7 +58,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.engagementCode}</p>
+                <p className="pl-4">{originalRow.engagementIdentifier}</p>
             )
         },
     },
@@ -175,7 +175,7 @@ export const columns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
                         <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementCode)}}>Copy engagement code</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier)}}>Copy engagement identifier</DropdownMenuItem>
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>

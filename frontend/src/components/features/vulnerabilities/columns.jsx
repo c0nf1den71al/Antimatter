@@ -38,14 +38,14 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "vulnerabilityCode",
+        accessorKey: "vulnerabilityIdentifier",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Vulnerability Code
+                    Vulnerability Identifier
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -53,7 +53,7 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4 uppercase">{originalRow.vulnerabilityCode}</p>
+                <p className="pl-4 uppercase">{originalRow.vulnerabilityIdentifier}</p>
             )
         }
     },

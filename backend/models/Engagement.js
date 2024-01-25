@@ -8,9 +8,9 @@ const engagementSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    engagementCode: {
+    engagementIdentifier: {
         type: String,
-        required: [true, "engagementCode is required"],
+        required: [true, "engagementIdentifier is required"],
         unique: true
     },
     startDate: {
@@ -46,6 +46,15 @@ const engagementSchema = new Schema({
         default: "pending"
     },
     findings: [{
+        _id: {
+            type: Schema.Types.ObjectId,
+            default: new mongoose.Types.ObjectId().toHexString(),
+            immutable: true
+        },
+        findingIdentifier: {
+            type: String,
+            required: [true, "Finding Identifier is required"]
+        },
         title: {
             type: String,
             required: [true, "Title is required"]

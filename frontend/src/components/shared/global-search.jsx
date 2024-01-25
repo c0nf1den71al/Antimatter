@@ -33,9 +33,10 @@ export function GlobalSearch() {
     const processSearch = (e) => {
         setSearchText(e.target.value)
         if (e.target.value == "") return setSearchResults([])
-        const engagementResults = engagements.filter((engagement) => engagement.engagementCode.toUpperCase().includes(e.target.value.toUpperCase())).map((engagement) => ({ ...engagement, type: "engagement" }))
+        console.log(engagements)
+        const engagementResults = engagements.filter((engagement) => engagement.engagementIdentifier.toUpperCase().includes(e.target.value.toUpperCase())).map((engagement) => ({ ...engagement, type: "engagement" }))
         const clientResults = clients.filter((client) => client.longName.toUpperCase().includes(e.target.value.toUpperCase()) || client.shortName.toUpperCase().includes(e.target.value.toUpperCase())).map((client) => ({ ...client, type: "client" }))
-        const vulnerabilityResults = vulnerabilities.filter((vulnerability) => vulnerability.vulnerabilityCode.toUpperCase().includes(e.target.value.toUpperCase()) || vulnerability.title.toUpperCase().includes(e.target.value.toUpperCase())).map((vulnerability) => ({ ...vulnerability, type: "vulnerability" }))
+        const vulnerabilityResults = vulnerabilities.filter((vulnerability) => vulnerability.vulnerabilityIdentifier.toUpperCase().includes(e.target.value.toUpperCase()) || vulnerability.title.toUpperCase().includes(e.target.value.toUpperCase())).map((vulnerability) => ({ ...vulnerability, type: "vulnerability" }))
         const allResults = [...engagementResults, ...clientResults, ...vulnerabilityResults]
         setSearchResults(allResults)
     }
@@ -64,7 +65,7 @@ export function GlobalSearch() {
                                             <Route className="h-5" />
                                             <div className="pl-3">
                                                 <p className="font-bold text-sm">Engagement</p>
-                                                {result.engagementCode}
+                                                {result.engagementIdentifier}
                                             </div>
                                         </CardContent>
                                     </Card>

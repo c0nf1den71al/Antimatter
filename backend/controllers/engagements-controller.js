@@ -35,14 +35,15 @@ module.exports.getEngagements = async (req, res) => {
 
 module.exports.createEngagement = async (req, res) => {
     try {
-        const { engagementCode=undefined, client=undefined } = req.body;
-        if (!engagementCode || !client) return res.json({error: "'engagementCode' and 'client' are required."})
+        const { engagementIdentifier=undefined, client=undefined } = req.body;
+        if (!engagementIdentifier || !client) return res.json({error: "'engagementIdentifier' and 'client' are required."})
         const engagement = await Engagement.create({
-            engagementCode,
+            engagementIdentifier,
             client
         })
         res.json(engagement)
     } catch (e) {
+        console.log(e)
         return res.json({error: "An error occured"}).status(500)
     }
 }
