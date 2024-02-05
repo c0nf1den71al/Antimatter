@@ -37,20 +37,20 @@ export const columns = [
                 onClick={(e) => e.stopPropagation()}
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="row"
             />
         ),
         enableHiding: false,
     },
     {
-        accessorKey: "Engagement Identifier",
+        accessorKey: "clientIdentifier",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Engagement Identifier
+                    Client Identifier
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -58,19 +58,19 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.engagementIdentifier}</p>
+                <p className="pl-4">{originalRow.clientIdentifier}</p>
             )
         },
     },
     {
-        accessorKey: "Client",
+        accessorKey: "Long Name",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Client
+                    Long Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -78,19 +78,19 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow?.clientShortName ? originalRow.clientShortName : originalRow.clientLongName}</p>
+                <p className="pl-4">{originalRow.longName}</p>
             )
         },
     },
     {
-        accessorKey: "Start Date",
+        accessorKey: "Short Name",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Start Date
+                    Short Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -98,19 +98,19 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.startDate ? new Date(originalRow.startDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
+                <p className="pl-4">{originalRow?.shortName ? originalRow.shortName : "Not Set"}</p>
             )
         },
     },
     {
-        accessorKey: "End Date",
+        accessorKey: "Contact Name",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    End Date
+                    Contact Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -118,44 +118,29 @@ export const columns = [
         cell: ({ row }) => {
             const originalRow = row.original
             return (
-                <p className="pl-4">{originalRow.endDate ? new Date(originalRow.endDate).toLocaleDateString("en-GB") : "Date Not Set"}</p>
+                <p className="pl-4">{originalRow.contact.fullName}</p>
             )
         },
     },
     {
-        accessorKey: "Status",
+        accessorKey: "Contact Email",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Status
+                    Contact Email
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
         cell: ({ row }) => {
             const originalRow = row.original
-
-            if (originalRow.status === "complete") {
-                return (
-                    <div className="flex pl-4">
-                        <div className="bg-green-100 rounded px-2 py-1/2">
-                            <p className="text-green-700 uppercase">{originalRow.status}</p>
-                        </div>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className="flex pl-4">
-                        <div className="bg-gray-100 rounded px-2 py-1/2">
-                            <p className="text-gray-700 uppercase">{originalRow.status}</p>
-                        </div>
-                    </div>
-                )
-            }
-        }
+            return (
+                <p className="pl-4">{originalRow.contact.email}</p>
+            )
+        },
     },
     {
         id: "actions",

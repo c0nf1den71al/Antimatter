@@ -11,9 +11,10 @@ module.exports.getClients = async (req, res) => {
 
 module.exports.createClient = async (req, res) => {
     try {
-        const { longName=undefined, shortName=undefined, contact=undefined} = req.body;
-        if (!longName || !contact?.fullName || !contact?.email) return res.json({error: "'longName', 'contact.fullName' and 'contact.email' are required."})
+        const { clientIdentifier=undefined, longName=undefined, shortName=undefined, contact=undefined} = req.body;
+        if (!clientIdentifier || !longName || !contact?.fullName || !contact?.email) return res.json({error: "'clientIdentifier', 'longName', 'contact.fullName' and 'contact.email' are required."})
         const client = await Client.create({
+            clientIdentifier,
             longName,
             shortName,
             contact

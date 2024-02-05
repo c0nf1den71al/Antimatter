@@ -1,4 +1,6 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
+import { ClientsTable } from "@/components/features/clients/clients-table"
+import { columns } from "@/components/features/clients/columns"
 
 export const metadata = {
     title: "Antimatter - Clients"
@@ -22,6 +24,7 @@ export default async function Clients() {
         <>
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex pt-10 pb-5 flex-col">
+                <ClientsTable columns={columns} />
             </div>
         </>
     )

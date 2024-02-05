@@ -8,6 +8,10 @@ const clientSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    clientIdentifier: {
+        type: String,
+        required: [true, "Client identifier is required"]
+    },
     longName: {
         type: String,
         required: [true, "Client longName is required"]
