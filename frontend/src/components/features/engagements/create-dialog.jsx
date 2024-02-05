@@ -11,12 +11,12 @@ import {
     DialogClose
 } from "@/components/ui/dialog"
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -26,13 +26,19 @@ import {
     FormItem,
     FormLabel
 } from "@/components/ui/form"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 
 import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form"
 import { useData } from "@/providers/data-provider"
 import { getSession } from "next-auth/react"
 
-import { stripTrailingSlash } from "@/lib/utils";
+import { stripTrailingSlash, cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react"
 
 export function CreateDialog({ clients }) {
     const { toast } = useToast()
@@ -40,7 +46,6 @@ export function CreateDialog({ clients }) {
     const form = useForm()
 
     async function onSubmit(values) {
-        console.log(values)
         const session = await getSession()
         fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", { 
             method: "PUT",
@@ -88,26 +93,60 @@ export function CreateDialog({ clients }) {
                                 )}
                             />
                             <FormField
-                                control={form.control}
-                                name="client"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Client</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            control={form.control}
+                            name="client"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Client</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
                                             <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select a client..." />
-                                                </SelectTrigger>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "justify-between",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value
+                                                        ? (clients.find(client => client._id === field.value)?.shortName || clients.find(client => client._id === field.value)?.longName || "Select client")
+                                                        : "Select client"}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
                                             </FormControl>
-                                            <SelectContent>
-                                                {clients && clients.map((client) => {
-                                                    return <SelectItem value={client._id} key={client._id}>{client.longName}</SelectItem>
-                                                })}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-[200px] p-0" align={"start"} >
+                                            <Command>
+                                                <CommandInput placeholder="Search clients..." />
+                                                <CommandEmpty>No clients found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {clients.map((client) => (
+                                                        <CommandItem
+                                                            value={client?.shortName ? client.shortName : client.longName}
+                                                            key={client._id}
+                                                            onSelect={() => {
+                                                                form.setValue("client", client._id)
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-2 h-4 w-4",
+                                                                    client._id === field.value
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                            {client?.shortName ? client.shortName : client.longName}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                </FormItem>
+                            )}
+                        />
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
