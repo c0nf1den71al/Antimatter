@@ -1,104 +1,157 @@
 "use client"
 
-import { Search, Route, Building2, Bug } from "lucide-react"
+import {
+    Sliders,
+    Settings,
+    FileCode2,
+    Search,
+    User,
+    Route,
+    Building2,
+    Bug
+} from "lucide-react"
+
+import {
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+    CommandShortcut,
+} from "@/components/ui/command"
+
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import Link from "next/link"
 
-import {
-    Card,
-    CardContent
-} from "@/components/ui/card"
-
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog"
-
+import { useEffect, useState, useCallback } from "react"
 import { useData } from "@/providers/data-provider"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export function GlobalSearch() {
-    const { engagements, clients, vulnerabilities } = useData()
-
-    const [searchText, setSearchText] = useState("")
-    const [searchResults, setSearchResults] = useState([])
+    const { engagements, loadingEngagements, clients, loadingClients, vulnerabilities, loadingVulnerabilities, templates, loadingTemplates } = useData()
     const [open, setOpen] = useState(false)
+    const router = useRouter()
 
-    const processSearch = (e) => {
-        setSearchText(e.target.value)
-        if (e.target.value == "") return setSearchResults([])
-        console.log(engagements)
-        const engagementResults = engagements.filter((engagement) => engagement.engagementIdentifier.toUpperCase().includes(e.target.value.toUpperCase())).map((engagement) => ({ ...engagement, type: "engagement" }))
-        const clientResults = clients.filter((client) => client.longName.toUpperCase().includes(e.target.value.toUpperCase()) || client.shortName.toUpperCase().includes(e.target.value.toUpperCase())).map((client) => ({ ...client, type: "client" }))
-        const vulnerabilityResults = vulnerabilities.filter((vulnerability) => vulnerability.vulnerabilityIdentifier.toUpperCase().includes(e.target.value.toUpperCase()) || vulnerability.title.toUpperCase().includes(e.target.value.toUpperCase())).map((vulnerability) => ({ ...vulnerability, type: "vulnerability" }))
-        const allResults = [...engagementResults, ...clientResults, ...vulnerabilityResults]
-        setSearchResults(allResults)
-    }
+    useEffect(() => {
+        const down = (e) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                setOpen((open) => !open)
+            }
+        }
+
+        document.addEventListener("keydown", down)
+        return () => document.removeEventListener("keydown", down)
+    }, [])
+
+    const runCommand = useCallback((command) => {
+        setOpen(false)
+        command()
+    }, [])
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="cursor-pointer"><Search className="h-5" /></Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Global Search</DialogTitle>
-                    <DialogDescription>
-                        Search Antimatter for engagements, clients, and vulnerabilities.
-                    </DialogDescription>
-                </DialogHeader>
-                <div>
-                    <Input value={searchText} onChange={processSearch} placeholder="Search..." />
-                    <Separator className="my-5" />
-                    <div className="flex flex-col gap-3 max-h-72 overflow-y-scroll">
-                        {searchResults.length > 0 ? searchResults.map((result) => {
-                            return result.type === "engagement" ? (
-                                <Link key={result._id} href={`/dashboard/engagements/${result._id}`} onClick={() => setOpen(false)}>
-                                    <Card className="cursor-pointer hover:bg-muted">
-                                        <CardContent className="p-3 flex flex-row items-center">
-                                            <Route className="h-5" />
-                                            <div className="pl-3">
-                                                <p className="font-bold text-sm">Engagement</p>
-                                                {result.engagementIdentifier}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ) : result.type === "client" ? (
-                                <Link key={result._id} href={`/dashboard/clients/${result._id}`} onClick={() => setOpen(false)}>
-                                    <Card className="cursor-pointer hover:bg-muted">
-                                        <CardContent className="p-3 flex flex-row items-center">
-                                            <Building2 className="h-5" />
-                                            <div className="pl-3">
-                                                <p className="font-bold text-sm">Client</p>
-                                                {result?.shortName || result?.longName}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ) : result.type === "vulnerability" ? (
-                                <Link key={result._id} href={`/dashboard/vulnerabilities/${result._id}`} onClick={() => setOpen(false)}>
-                                    <Card className="cursor-pointer hover:bg-muted">
-                                        <CardContent className="p-3 flex flex-row items-center">
-                                            <Bug className="h-5" />
-                                            <div className="pl-3">
-                                                <p className="font-bold text-sm">Vulnerability</p>
-                                                {result.title}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ) : null
-                        }) : <p className="text-center">No Results.</p>}
-                    </div>
-                </div>
-            </DialogContent>
-        </Dialog>
+        <>
+            <Button onClick={() => setOpen(true)} variant="ghost" size="icon" className="cursor-pointer"><Search className="h-5" /></Button>
+            <CommandDialog open={open} onOpenChange={setOpen}>
+                <CommandInput placeholder="Type a command or search..." />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup heading="Suggestions">
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/engagements"))}>
+                            <Route className="mr-2 h-4 w-4" />
+                            <span>Engagements</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/vulnerabilities"))}>
+                            <Bug className="mr-2 h-4 w-4" />
+                            <span>Vulnerabilities</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/clients"))}>
+                            <Building2 className="mr-2 h-4 w-4" />
+                            <span>Clients</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/templates"))}>
+                            <FileCode2 className="mr-2 h-4 w-4" />
+                            <span>Templates</span>
+                        </CommandItem>
+                    </CommandGroup>
+                    <CommandSeparator />
+                    {!loadingEngagements && engagements.length > 0 && (
+                        <>
+                            <CommandGroup heading="Engagements">
+                                {engagements.map((engagement) => {
+                                    return (
+                                        <CommandItem key={engagement._id} onSelect={() => runCommand(() => router.push(`/dashboard/engagements/${engagement._id}`))}>
+                                            <Route className="mr-2 h-4 w-4" />
+                                            <span>{engagement.engagementIdentifier}</span>
+                                        </CommandItem>
+                                    )
+                                })}
+                            </CommandGroup>
+                            <CommandSeparator />
+                        </>
+                    )}
+                    {!loadingVulnerabilities && vulnerabilities.length > 0 && (
+                        <>
+                            <CommandGroup heading="Vulnerabilities">
+                                {vulnerabilities.map((vulnerability) => {
+                                    return (
+                                        <CommandItem key={vulnerability._id} onSelect={() => runCommand(() => router.push(`/dashboard/vulnerabilities/${vulnerability._id}`))}>
+                                            <Bug className="mr-2 h-4 w-4" />
+                                            <span>{vulnerability.title}</span>
+                                        </CommandItem>
+                                    )
+                                })}
+                            </CommandGroup>
+                            <CommandSeparator />
+                        </>
+                    )}
+                    {!loadingClients && clients.length > 0 && (
+                        <>
+                            <CommandGroup heading="Clients">
+                                {clients.map((client) => {
+                                    return (
+                                        <CommandItem key={client._id} onSelect={() => runCommand(() => router.push(`/dashboard/clients/${client._id}`))}>
+                                            <Building2 className="mr-2 h-4 w-4" />
+                                            <span>{client?.shortName ? client.shortName : client.longName}</span>
+                                        </CommandItem>
+                                    )
+                                })}
+                            </CommandGroup>
+                            <CommandSeparator />
+                        </>
+                    )}
+                    {!loadingTemplates && templates.length > 0 && (
+                        <>
+                            <CommandGroup heading="Templates">
+                                {templates.map((template) => {
+                                    return (
+                                        <CommandItem key={template._id} onSelect={() => runCommand(() => router.push(`/dashboard/templates/${template._id}`))}>
+                                            <FileCode2 className="mr-2 h-4 w-4" />
+                                            <span>{template.name}</span>
+                                        </CommandItem>
+                                    )
+                                })}
+                            </CommandGroup>
+                            <CommandSeparator />
+                        </>
+                    )}
+                    <CommandGroup heading="Settings">
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
+                            <Sliders className="mr-2 h-4 w-4" />
+                            <span>General</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Account</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Settings</span>
+                        </CommandItem>
+                    </CommandGroup>
+                </CommandList>
+            </CommandDialog>
+        </>
     )
 }
