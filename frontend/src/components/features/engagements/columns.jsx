@@ -43,7 +43,7 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "Engagement Identifier",
+        accessorKey: "engagementIdentifier",
         header: ({ column }) => {
             return (
                 <Button
@@ -63,7 +63,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Client",
+        accessorKey: "client",
         header: ({ column }) => {
             return (
                 <Button
@@ -103,7 +103,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "End Date",
+        accessorKey: "endDate",
         header: ({ column }) => {
             return (
                 <Button
@@ -123,7 +123,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Status",
+        accessorKey: "status",
         header: ({ column }) => {
             return (
                 <Button

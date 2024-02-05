@@ -9,33 +9,40 @@ import {
     FormItem,
     FormLabel
 } from "@/components/ui/form"
-
-import { Calendar as CalendarIcon } from "lucide-react"
-
-import { useData } from "@/providers/data-provider"
-import { useForm } from "react-hook-form"
-import { useState, useEffect } from "react"
-
-import { addDays, format } from "date-fns"
-import { DateRange } from "react-day-picker"
-
-import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { Textarea } from "@/components/ui/textarea"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command"
+
+import { Check, ChevronsUpDown, Calendar as CalendarIcon } from "lucide-react"
+import { useData } from "@/providers/data-provider"
+import { useForm } from "react-hook-form"
+import { useState, useEffect } from "react"
+
+
+import { cn } from "@/lib/utils"
+import { format } from "date-fns"
 
 
 
 export function EngagementDetails({ engagementId }) {
-    const { engagements } = useData()
+    const { engagements, clients } = useData()
     const form = useForm()
 
     const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
     const [engagementIdentifier, setEngagementIdentifier] = useState("")
+    const [scope, setScope] = useState("")
     const [date, setDate] = useState({
         from: undefined,
         to: undefined,
@@ -69,9 +76,9 @@ export function EngagementDetails({ engagementId }) {
             from: engagement?.startDate,
             to: engagement?.endDate
         })
-    }, [engagement])
+        setScope(engagement?.scope)
 
-    console.log(date)
+    }, [engagement])
 
     return (
         <>
@@ -87,6 +94,62 @@ export function EngagementDetails({ engagementId }) {
                                     <FormControl>
                                         <Input {...field} placeholder="AM-ACME-WEB" value={engagementIdentifier} onChange={(e) => setEngagementIdentifier(e.target.value)} autoComplete="off" />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="client"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Client</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "justify-between",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value
+                                                        ? (clients.find(client => client._id === field.value)?.shortName || clients.find(client => client._id === field.value)?.longName || "Select client")
+                                                        : "Select client"}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-[200px] p-0" align={"start"} >
+                                            <Command>
+                                                <CommandInput placeholder="Search clients..." />
+                                                <CommandEmpty>No clients found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {clients.map((client) => (
+                                                        <CommandItem
+                                                            value={client?.shortName ? client.shortName : client.longName}
+                                                            key={client._id}
+                                                            onSelect={() => {
+                                                                form.setValue("client", client._id)
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-2 h-4 w-4",
+                                                                    client._id === field.value
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                            {client?.shortName ? client.shortName : client.longName}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
                                 </FormItem>
                             )}
                         />
@@ -146,9 +209,9 @@ export function EngagementDetails({ engagementId }) {
                             name="enagementIdentifier"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Engagement Identifier</FormLabel>
+                                    <FormLabel>Scope</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="AM-ACME-WEB" value={engagementIdentifier} onChange={(e) => setEngagementIdentifier(e.target.value)} autoComplete="off" />
+                                        <Textarea {...field} rows={10} placeholder={"shop.antimatter.local\napi.antimatter.local\n..."} value={scope} onChange={(e) => setScope(e.target.value)} autoComplete="off" />
                                     </FormControl>
                                 </FormItem>
                             )}

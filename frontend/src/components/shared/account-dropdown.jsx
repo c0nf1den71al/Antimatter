@@ -22,7 +22,7 @@ export function AccountDropdown({session}) {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar style="shape" value="fa34aa2ce38a3e1f48add34" clickable={true} />
+                    <Avatar style="shape" value="fa34aa2ce38a3e1f48add34ea" clickable={true} />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>

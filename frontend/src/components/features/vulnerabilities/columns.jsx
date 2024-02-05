@@ -38,7 +38,7 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "Vulnerability Identifier",
+        accessorKey: "vulnerabilityIdentifier",
         header: ({ column }) => {
             return (
                 <Button
@@ -58,7 +58,7 @@ export const columns = [
         }
     },
     {
-        accessorKey: "Category",
+        accessorKey: "category",
         header: ({ column }) => {
             return (
                 <Button
@@ -78,7 +78,7 @@ export const columns = [
         }
     },
     {
-        accessorKey: "Title",
+        accessorKey: "title",
         header: ({ column }) => {
             return (
                 <Button

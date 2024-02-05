@@ -43,7 +43,7 @@ export const columns = [
         enableHiding: false,
     },
     {
-        accessorKey: "Finding Identifier",
+        accessorKey: "findingIdentifier",
         header: ({ column }) => {
             return (
                 <Button
@@ -63,7 +63,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Title",
+        accessorKey: "title",
         header: ({ column }) => {
             return (
                 <Button
@@ -83,7 +83,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Status",
+        accessorKey: "status",
         header: ({ column }) => {
             return (
                 <Button
@@ -103,7 +103,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Severity",
+        accessorKey: "severity",
         header: ({ column }) => {
             return (
                 <Button

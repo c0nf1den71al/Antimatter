@@ -63,7 +63,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Long Name",
+        accessorKey: "longName",
         header: ({ column }) => {
             return (
                 <Button
@@ -83,7 +83,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Short Name",
+        accessorKey: "shortName",
         header: ({ column }) => {
             return (
                 <Button
@@ -103,7 +103,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Contact Name",
+        accessorKey: "contact.fullName",
         header: ({ column }) => {
             return (
                 <Button
@@ -123,7 +123,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Contact Email",
+        accessorKey: "contact.email",
         header: ({ column }) => {
             return (
                 <Button
