@@ -48,7 +48,7 @@ export default async function Engagement({ params }) {
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex pb-5 pt-10 flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
                 <aside className="-mx-4 lg:w-1/6">
-                    <SidebarNavigation items={sidebarNavItems} />
+                    <SidebarNavigation items={sidebarNavItems} addButton={true}/>
                 </aside>
                 <div className="flex-1">
                     <FindingsTable engagementId={params.engagementId} columns={columns} />

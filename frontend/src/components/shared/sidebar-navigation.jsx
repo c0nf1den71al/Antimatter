@@ -7,8 +7,9 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 import { PlusCircle } from "lucide-react"
+import { add } from "date-fns"
 
-export function SidebarNavigation({ className, items, ...props }) {
+export function SidebarNavigation({ className, items, addButton, ...props }) {
   const pathname = usePathname()
 
   return (
@@ -34,9 +35,12 @@ export function SidebarNavigation({ className, items, ...props }) {
           {item.title}
         </Link>
       ))}
-      <Button variant="outline">
-          <PlusCircle className="h-5 pr-2"/> New Section
+      {addButton && (
+        <Button variant="outline">
+          <PlusCircle className="h-5 pr-2" /> New Section
         </Button>
+      )}
+
     </nav>
   )
 }

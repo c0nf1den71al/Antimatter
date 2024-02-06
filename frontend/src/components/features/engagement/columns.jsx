@@ -16,6 +16,8 @@ import {
     DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu"
 
+import { Tag } from "@/components/shared/tag"
+
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 
@@ -121,41 +123,31 @@ export const columns = [
             if (originalRow.severity === "critical") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-purple-100 rounded px-2 py-1/2">
-                            <p className="text-purple-700 uppercase">{originalRow.severity}</p>
-                        </div>
+                        <Tag variant="purple">{originalRow.severity}</Tag>
                     </div>
                 )
             } else if (originalRow.severity === "high") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-red-100 rounded px-2 py-1/2">
-                            <p className="text-red-700 uppercase">{originalRow.severity}</p>
-                        </div>
+                        <Tag variant="red">{originalRow.severity}</Tag>
                     </div>
                 )
             } else if (originalRow.severity === "medium") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-amber-100 rounded px-2 py-1/2">
-                            <p className="text-amber-700 uppercase">{originalRow.severity}</p>
-                        </div>
+                        <Tag variant="amber">{originalRow.severity}</Tag>
                     </div>
                 )
             } else if (originalRow.severity === "low") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-blue-100 rounded px-2 py-1/2">
-                            <p className="text-blue-700 uppercase">{originalRow.severity}</p>
-                        </div>
+                        <Tag variant="blue">{originalRow.severity}</Tag>
                     </div>
                 )
             } else {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-gray-100 rounded px-2 py-1/2">
-                            <p className="text-gray-700 uppercase">{originalRow.severity}</p>
-                        </div>
+                        <Tag variant="gray">{originalRow.severity}</Tag>
                     </div>
                 )
             }
@@ -179,7 +171,7 @@ export const columns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
                         <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.findingIdentifier)}}>Copy identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(originalRow.findingIdentifier) }}>Copy identifier</DropdownMenuItem>
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>

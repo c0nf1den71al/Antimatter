@@ -16,6 +16,8 @@ import {
     DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu"
 
+import { Tag } from "@/components/shared/tag"
+
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 
@@ -83,7 +85,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "Start Date",
+        accessorKey: "startDate",
         header: ({ column }) => {
             return (
                 <Button
@@ -141,17 +143,13 @@ export const columns = [
             if (originalRow.status === "complete") {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-green-100 rounded px-2 py-1/2">
-                            <p className="text-green-700 uppercase">{originalRow.status}</p>
-                        </div>
+                        <Tag variant="green">{originalRow.status}</Tag>
                     </div>
                 )
             } else {
                 return (
                     <div className="flex pl-4">
-                        <div className="bg-gray-100 rounded px-2 py-1/2">
-                            <p className="text-gray-700 uppercase">{originalRow.status}</p>
-                        </div>
+                        <Tag variant="gray">{originalRow.status}</Tag>
                     </div>
                 )
             }

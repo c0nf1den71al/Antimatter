@@ -8,7 +8,8 @@ import {
     User,
     Route,
     Building2,
-    Bug
+    Bug,
+    Paintbrush2
 } from "lucide-react"
 
 import {
@@ -19,7 +20,6 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
 } from "@/components/ui/command"
 
 import { Button } from "@/components/ui/button"
@@ -144,6 +144,10 @@ export function GlobalSearch() {
                         <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
                             <User className="mr-2 h-4 w-4" />
                             <span>Account</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
+                            <Paintbrush2 className="mr-2 h-4 w-4" />
+                            <span>Apperance</span>
                         </CommandItem>
                         <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
                             <Settings className="mr-2 h-4 w-4" />
