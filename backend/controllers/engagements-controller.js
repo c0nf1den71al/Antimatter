@@ -41,7 +41,17 @@ module.exports.createEngagement = async (req, res) => {
             engagementIdentifier,
             client
         })
-        res.json(engagement)
+        return res.json(engagement)
+    } catch (e) {
+        console.log(e)
+        return res.json({error: "An error occured"}).status(500)
+    }
+}
+
+module.exports.deleteEngagement = async (req, res) => {
+    try {
+        const engagements = await Engagement.findByIdAndDelete(req.params.engagementId, {new: true})
+        return res.json(engagements)
     } catch (e) {
         console.log(e)
         return res.json({error: "An error occured"}).status(500)

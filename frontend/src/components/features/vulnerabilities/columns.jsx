@@ -13,6 +13,9 @@ import {
 
 import { ArrowUpDown, MoreHorizontal, Check } from "lucide-react"
 
+import { getSession } from "next-auth/react"
+import { useData } from "@/providers/data-provider"
+import { useToast } from "@/components/ui/use-toast"
 
 export const columns = [
     {
@@ -101,6 +104,27 @@ export const columns = [
         id: "actions",
         cell: ({ row }) => {
             const originalRow = row.original
+            const { vulnerabilities, setVulnerabilities } = useData()
+            const { toast } = useToast()
+            const deleteVulnerability = async (vulnerabilityId) => {
+                try {
+                    const session = await getSession()
+                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/vulnerabilities/${vulnerabilityId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${session.accessToken}`,
+                        }
+                    }).then((res) => res.json())
+                        .then((data) => {
+                            setVulnerabilities(vulnerabilities.filter(vulnerability =>
+                                vulnerability._id !== vulnerabilityId
+                            ))
+                            toast({ description: `Vulnerability "${data.vulnerabilityIdentifier}" has been deleted.` })
+                        })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
             return (
                 <DropdownMenu>
@@ -117,7 +141,7 @@ export const columns = [
                         <DropdownMenuItem>Open</DropdownMenuItem>
                         <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.identifier)}}>Copy identifier</DropdownMenuItem>
                         <DropdownMenuSeparator />        
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); deleteVulnerability(originalRow._id)}}>
                             Delete
                             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                         </DropdownMenuItem>

@@ -19,7 +19,9 @@ import {
 import { Tag } from "@/components/shared/tag"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
+import { getSession } from "next-auth/react"
+import { useData } from "@/providers/data-provider"
+import { useToast } from "@/components/ui/use-toast"
 
 export const columns = [
     {
@@ -159,6 +161,27 @@ export const columns = [
         id: "actions",
         cell: ({ row }) => {
             const originalRow = row.original
+            const { engagements, setEngagements } = useData()
+            const { toast } = useToast()
+            const deleteEngagement = async (engagementId) => {
+                try {
+                    const session = await getSession()
+                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/engagements/${engagementId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${session.accessToken}`,
+                        }
+                    }).then((res) => res.json())
+                        .then((data) => {
+                            setEngagements(engagements.filter(engagement =>
+                                engagement._id !== engagementId
+                            ))
+                            toast({ description: `Engagement "${data.engagementIdentifier}" has been deleted.` })
+                        })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
             return (
                 <DropdownMenu>
@@ -173,7 +196,7 @@ export const columns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
                         <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier)}}>Copy identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier) }}>Copy identifier</DropdownMenuItem>
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
@@ -189,7 +212,7 @@ export const columns = [
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); deleteEngagement(originalRow._id)}}>
                             Delete
                             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                         </DropdownMenuItem>
