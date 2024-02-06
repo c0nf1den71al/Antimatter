@@ -46,18 +46,19 @@ import { getSession } from "next-auth/react"
 import { ChevronsUpDown, Check } from "lucide-react"
 
 import { stripTrailingSlash, cn } from "@/lib/utils";
+import Engagement from "@/app/dashboard/engagements/[engagementId]/page"
 
-export function CreateDialog() {
+export function CreateDialog({ engagementId }) {
     const { toast } = useToast()
-    const { vulnerabilities, setVulnerabilities } = useData()
+    const { findings, setFindings, vulnerabilities, engagements, setEngagements } = useData()
     const form = useForm()
 
     const [createOpen, setCreateOpen] = useState(false)
     const [importOpen, setImportOpen] = useState(false)
 
-    async function onSubmit(values) {
+    async function submitCreate(values) {
         const session = await getSession()
-        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", {
+        fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${engagementId}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,
@@ -67,11 +68,25 @@ export function CreateDialog() {
         }).then((res) => res.json())
             .then((data) => {
                 form.reset()
-                const client = clients.find((client) => client._id == values.client)
-                data.clientLongName = client.longName
-                data.clientShortName = client?.shortName
-                setEngagements([...engagements, data])
-                toast({ description: `Engagement "${data.engagementIdentifier}" has been created successfully.` })
+                setFindings(data)
+                toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
+            })
+    }
+
+    async function submitImport(values) {
+        const session = await getSession()        
+        fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${engagementId}/import`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${session.accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        }).then((res) => res.json())
+            .then((data) => {
+                form.reset()
+                setFindings(data)
+                toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
             })
     }
 
@@ -96,7 +111,7 @@ export function CreateDialog() {
             <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                 <DialogContent>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <form onSubmit={form.handleSubmit(submitCreate)}>
                             <DialogHeader>
                                 <DialogTitle>Create Finding</DialogTitle>
                                 <DialogDescription>
@@ -111,7 +126,7 @@ export function CreateDialog() {
                                         <FormItem>
                                             <FormLabel>Finding Identifier</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="AM-001" {...field} />
+                                                <Input placeholder="AM-001" {...field} autoComplete="off" data-1p-ignore />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -123,7 +138,7 @@ export function CreateDialog() {
                                         <FormItem>
                                             <FormLabel>Title</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Remote Code Execution (RCE) Via SQL Injection" {...field} />
+                                                <Input placeholder="Remote Code Execution (RCE) Via SQL Injection" {...field} autoComplete="off" data-1p-ignore />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -142,7 +157,7 @@ export function CreateDialog() {
             <Dialog open={importOpen} onOpenChange={setImportOpen}>
                 <DialogContent>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <form onSubmit={form.handleSubmit(submitImport)}>
                             <DialogHeader>
                                 <DialogTitle>Import Vulnerability</DialogTitle>
                                 <DialogDescription>
@@ -157,14 +172,14 @@ export function CreateDialog() {
                                         <FormItem>
                                             <FormLabel>Finding Identifier</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="AM-001" {...field} />
+                                                <Input placeholder="AM-001" {...field} autoComplete="off" data-1p-ignore />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="vulnerability"
+                                    name="vulnerabilityId"
                                     render={({ field }) => (
                                         <FormItem className="flex flex-col">
                                             <FormLabel>Vulnerability</FormLabel>
@@ -196,7 +211,7 @@ export function CreateDialog() {
                                                                     value={vulnerability.title}
                                                                     key={vulnerability._id}
                                                                     onSelect={() => {
-                                                                        form.setValue("vulnerability", vulnerability._id)
+                                                                        form.setValue("vulnerabilityId", vulnerability._id)
                                                                     }}
                                                                 >
                                                                     <Check

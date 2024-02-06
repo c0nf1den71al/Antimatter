@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
     flexRender,
@@ -35,7 +35,7 @@ import { useData } from "@/providers/data-provider"
 
 
 export function FindingsTable({ engagementId, columns }) {
-    const { engagements, loadingEngagements } = useData()
+    const { engagements, loadingEngagements, findings, setFindings, setLoadingFindings, loadingFindings } = useData()
 
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])
@@ -45,8 +45,13 @@ export function FindingsTable({ engagementId, columns }) {
     
     const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
+    useEffect(() => {
+        setFindings(engagement?.findings ? engagement.findings : [])
+        setLoadingFindings(false)
+    }, [engagements])
+
     const table = useReactTable({
-        data: engagement?.findings ? engagement.findings : [],
+        data: findings,
         columns: columns,
         onRowSelectionChange: setRowSelection,
         getCoreRowModel: getCoreRowModel(),
@@ -103,7 +108,7 @@ export function FindingsTable({ engagementId, columns }) {
                             })}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <CreateDialog />
+                <CreateDialog engagementId={engagementId} />
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -144,7 +149,7 @@ export function FindingsTable({ engagementId, columns }) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    {loadingEngagements ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin"/></div> : "No results."}
+                                    {loadingFindings ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin"/></div> : "No results."}
                                 </TableCell>
                             </TableRow>
                         )}

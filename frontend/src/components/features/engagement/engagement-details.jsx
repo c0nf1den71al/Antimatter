@@ -78,7 +78,7 @@ export function EngagementDetails({ engagementId }) {
         })
         setScope(engagement?.scope)
 
-    }, [engagement])
+    }, [engagements])
 
     return (
         <>

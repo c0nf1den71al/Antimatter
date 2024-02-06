@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 import { PlusCircle } from "lucide-react"
-import { add } from "date-fns"
 
 export function SidebarNavigation({ className, items, addButton, ...props }) {
   const pathname = usePathname()
@@ -36,7 +35,7 @@ export function SidebarNavigation({ className, items, addButton, ...props }) {
         </Link>
       ))}
       {addButton && (
-        <Button variant="outline">
+        <Button variant="outline" disabled className="cursor-not-allowed">
           <PlusCircle className="h-5 pr-2" /> New Section
         </Button>
       )}

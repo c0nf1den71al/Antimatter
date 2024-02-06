@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation"
 
 export function AccountDropdown({session}) {
     const router = useRouter()
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

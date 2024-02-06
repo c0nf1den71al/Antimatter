@@ -20,7 +20,9 @@ export default async function Engagement({ params }) {
         },
         {
             title: params.engagementId,
+            type: "engagement",
             href: `/dashboard/engagements/${params.engagementId}`
+
         },
         {
             title: "Findings",
@@ -34,12 +36,12 @@ export default async function Engagement({ params }) {
             href: `/dashboard/engagements/${params.engagementId}`,
         },
         {
-            title: "Findings",
-            href: `/dashboard/engagements/${params.engagementId}/findings`,
-        },
-        {
             title: "Executive Summary",
             href: `/dashboard/engagements/${params.engagementId}/summary`,
+        },
+        {
+            title: "Findings",
+            href: `/dashboard/engagements/${params.engagementId}/findings`,
         }
     ]
 

@@ -16,6 +16,9 @@ export const DataProvider = ({ children }) => {
     const [vulnerabilities, setVulnerabilities] = useState([])
     const [loadingVulnerabilities, setLoadingVulnerabilities] = useState(true)
 
+    const [findings, setFindings] = useState([])
+    const [loadingFindings, setLoadingFindings] = useState(true)
+
     const [templates, setTemplates] = useState([])
     const [loadingTemplates, setLoadingTemplates] = useState(true)
 
@@ -85,7 +88,7 @@ export const DataProvider = ({ children }) => {
 
 
     return (
-        <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, templates, setTemplates, loadingTemplates }}>
+        <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, findings, setFindings, loadingFindings, setLoadingFindings, templates, setTemplates, loadingTemplates }}>
             {children}
         </DataContext.Provider>
         )
