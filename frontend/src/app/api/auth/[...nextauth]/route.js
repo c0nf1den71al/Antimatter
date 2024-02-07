@@ -11,7 +11,7 @@ export const authOptions = {
             },
             async authorize(credentials) {
                 try {
-                    const res = await fetch(stripTrailingSlash(process.env.ANTIMATTER_API_URL) + "/api/auth/login", {
+                    const res = await fetch("http://backend:4201/api/auth/login", {
                         method: 'POST',
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ email: credentials.email, password: credentials.password })
