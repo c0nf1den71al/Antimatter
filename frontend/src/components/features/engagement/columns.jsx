@@ -189,7 +189,6 @@ export const columns = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                             Delete
-                            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

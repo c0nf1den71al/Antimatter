@@ -17,7 +17,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
+import { getSession } from "next-auth/react"
+import { useData } from "@/providers/data-provider"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export const columns = [
     {
@@ -146,6 +149,29 @@ export const columns = [
         id: "actions",
         cell: ({ row }) => {
             const originalRow = row.original
+            const { clients, setClients } = useData()
+            const { toast } = useToast()
+            const router = useRouter()
+            
+            const deleteClient = async (clientId) => {
+                try {
+                    const session = await getSession()
+                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/clients/${clientId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${session.accessToken}`,
+                        }
+                    }).then((res) => res.json())
+                        .then((data) => {
+                            setClients(clients.filter(client =>
+                                client._id !== clientId
+                            ))
+                            toast({ description: `Client "${data.clientIdentifier}" has been deleted.` })
+                        })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
             return (
                 <DropdownMenu>
@@ -159,9 +185,8 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
-                        <DropdownMenuItem>Open</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/clients/${originalRow._id}`)}}>Open</DropdownMenuItem>
                         <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier)}}>Copy identifier</DropdownMenuItem>
-                        <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
@@ -176,9 +201,8 @@ export const columns = [
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); deleteClient(originalRow._id)}}>
                             Delete
-                            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

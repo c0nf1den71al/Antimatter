@@ -24,3 +24,13 @@ module.exports.createClient = async (req, res) => {
         return res.json({error: "An error occured"}).status(500)
     }
 }
+
+module.exports.deleteClient = async (req, res) => {
+    try {
+        const client = await Client.findByIdAndDelete(req.params.clientId, {new: true})
+        return res.json(client)
+    } catch (e) {
+        console.log(e)
+        return res.json({error: "An error occured"}).status(500)
+    }
+}
