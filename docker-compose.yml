@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - ${ANTIMATTER_WEB_PORT}:3000
+      - ${ANTIMATTER_WEB_PORT}:${ANTIMATTER_WEB_PORT}
     env_file:
       - .env
     environment:
@@ -38,15 +38,7 @@ services:
       interval: 10s
       start_period: 30s
 
-  database-replica:
-      image: mongo:latest
-      command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27018"]
-      ports:
-        - 27018:27018
-      volumes:
-        - "antimatter_database_replica:/data/db"
+      # In production there should ideally be another rs node.
 
 volumes:
   antimatter_database:
-  antimatter_database_replica:
-

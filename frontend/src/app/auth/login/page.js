@@ -1,4 +1,4 @@
-import { Orbit } from "lucide-react"
+import { Ratio } from "lucide-react"
 import { LoginForm } from "@/components/features/login/login-form"
 
 import { getServerSession } from "next-auth"
@@ -19,7 +19,7 @@ export default async function AuthenticationPage() {
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-neutral-900" />
           <div className="relative z-20 flex items-center text-lg font-medium">
-            <Orbit className="mr-2 h-6" />
+            <Ratio className="mr-2 h-6" />
             Antimatter.
           </div>
         </div>
