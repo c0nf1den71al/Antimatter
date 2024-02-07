@@ -22,6 +22,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { getSession } from "next-auth/react"
 import { useData } from "@/providers/data-provider"
 import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export const columns = [
     {
@@ -163,6 +164,8 @@ export const columns = [
             const originalRow = row.original
             const { engagements, setEngagements } = useData()
             const { toast } = useToast()
+            const router = useRouter()
+            
             const deleteEngagement = async (engagementId) => {
                 try {
                     const session = await getSession()
@@ -195,9 +198,9 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
-                        <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier) }}>Copy identifier</DropdownMenuItem>
-                        <DropdownMenuItem>View Client</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/engagements/${originalRow._id}`)}}>Open</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier) }}>Copy identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/clients/${originalRow.client}`)}}>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>

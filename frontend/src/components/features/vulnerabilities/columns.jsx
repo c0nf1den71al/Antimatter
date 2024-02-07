@@ -16,6 +16,7 @@ import { ArrowUpDown, MoreHorizontal, Check } from "lucide-react"
 import { getSession } from "next-auth/react"
 import { useData } from "@/providers/data-provider"
 import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export const columns = [
     {
@@ -106,6 +107,8 @@ export const columns = [
             const originalRow = row.original
             const { vulnerabilities, setVulnerabilities } = useData()
             const { toast } = useToast()
+            const router = useRouter()
+
             const deleteVulnerability = async (vulnerabilityId) => {
                 try {
                     const session = await getSession()
@@ -138,8 +141,8 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
-                        <DropdownMenuItem>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.identifier)}}>Copy identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/vulnerability/${originalRow._id}`)}}>Open</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.vulnerabilityIdentifier)}}>Copy identifier</DropdownMenuItem>
                         <DropdownMenuSeparator />        
                         <DropdownMenuItem onClick={(e) => { e.stopPropagation(); deleteVulnerability(originalRow._id)}}>
                             Delete

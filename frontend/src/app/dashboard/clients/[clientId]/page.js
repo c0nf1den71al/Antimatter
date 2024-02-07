@@ -18,7 +18,8 @@ export default async function Client({ params }) {
         },
         {
             title: params.clientId,
-            isCurrentPage: true
+            isCurrentPage: true,
+            type: "client"
         }
     ]
 

@@ -1,14 +1,14 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Orbit } from "lucide-react"
+import { Ratio } from "lucide-react"
 
 export function NavigationLinks() {
     const path = usePathname()
     return (
-        <nav className="mr-6 flex items-center space-x-4 lg:space-x-6">
+        <nav className="mr-6 flex items-center space-x-4">
             <Link href="/dashboard">
-                <Orbit className="h-6" />
+                <Ratio className="h-6" />
             </Link>
             
             <Link
