@@ -60,3 +60,17 @@ module.exports.importVulnerability = async (req, res) => {
         return res.json({error: "An error occured"}).status(500)
     }
 }
+
+module.exports.deleteFinding = async (req, res) => {
+    try {
+        const engagement = await Engagement.findById(req.params.engagementId)
+        const newFindings = engagement.findings.filter(finding => finding._id.toString() !== req.params.findingId)
+        const updatedEngagement = await Engagement.findByIdAndUpdate(req.params.engagementId, {
+            "findings": newFindings
+        })
+        return res.json(updatedEngagement?.findings)
+    } catch (e) {
+        console.log(e)
+        return res.json({error: "An error occured"}).status(500)
+    }   
+}

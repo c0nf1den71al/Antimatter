@@ -35,14 +35,14 @@ import { useData } from "@/providers/data-provider"
 
 
 export function FindingsTable({ engagementId, columns }) {
-    const { engagements, loadingEngagements, findings, setFindings, setLoadingFindings, loadingFindings } = useData()
+    const { engagements, findings, setFindings, setLoadingFindings, loadingFindings } = useData()
 
     const [rowSelection, setRowSelection] = useState({})
     const [columnFilters, setColumnFilters] = useState([])
     const [sorting, setSorting] = useState([])
     const [columnVisibility, setColumnVisibility] = useState({})
     const router = useRouter()
-    
+
     const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
     useEffect(() => {
@@ -53,6 +53,9 @@ export function FindingsTable({ engagementId, columns }) {
     const table = useReactTable({
         data: findings,
         columns: columns,
+        meta: {
+            engagementId: engagementId
+        },
         onRowSelectionChange: setRowSelection,
         getCoreRowModel: getCoreRowModel(),
         onSortingChange: setSorting,
@@ -149,7 +152,7 @@ export function FindingsTable({ engagementId, columns }) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    {loadingFindings ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin"/></div> : "No results."}
+                                    {loadingFindings ? <div className="w-full flex justify-center"><Loader2 className="h-5 animate-spin" /></div> : "No results."}
                                 </TableCell>
                             </TableRow>
                         )}

@@ -19,7 +19,10 @@ import {
 import { Tag } from "@/components/shared/tag"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
+import { getSession } from "next-auth/react"
+import { useData } from "@/providers/data-provider"
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export const columns = [
     {
@@ -155,8 +158,30 @@ export const columns = [
     },
     {
         id: "actions",
-        cell: ({ row }) => {
+        cell: ({ row, table }) => {
             const originalRow = row.original
+            const {findings, setFindings } = useData()
+            const { toast } = useToast()
+            const router = useRouter()
+            const deleteFinding = async (findingId) => {
+                try {
+                    const session = await getSession()
+                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${table.options.meta.engagementId}/${findingId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${session.accessToken}`,
+                        }
+                    }).then((res) => res.json())
+                        .then((data) => {
+                            setFindings(findings.filter(finding =>
+                                finding._id !== findingId
+                            ))
+                            toast({ description: `Finding "${originalRow.findingIdentifier}" has been deleted.` })
+                        })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
             return (
                 <DropdownMenu>
@@ -170,15 +195,14 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
-                        <DropdownMenuItem>Open</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/dashboard/engagements/${table.options.meta.engagementId}/findings/${originalRow._id}`) }}>Open</DropdownMenuItem>
                         <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(originalRow.findingIdentifier) }}>Copy identifier</DropdownMenuItem>
-                        <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
-                            <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+                            <DropdownMenuSubTrigger>Severity</DropdownMenuSubTrigger>
                             <DropdownMenuSubContent>
-                                <DropdownMenuRadioGroup value={originalRow.status}>
-                                    {["Pending", "In Progress", "Complete", "Delayed"].map((status) => (
+                                <DropdownMenuRadioGroup value={originalRow.severity}>
+                                    {["Critical", "High", "Medium", "Low", "Informational"].map((status) => (
                                         <DropdownMenuRadioItem key={originalRow.id} value={status.toLocaleLowerCase()}>
                                             {status}
                                         </DropdownMenuRadioItem>
@@ -187,7 +211,7 @@ export const columns = [
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); deleteFinding(originalRow._id)}}>
                             Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
