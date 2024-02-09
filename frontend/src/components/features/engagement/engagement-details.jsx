@@ -61,7 +61,6 @@ export function EngagementDetails({ engagementId }) {
         postBody.endDate = values?.dateRange?.to
         delete postBody?.dateRange
 
-        console.log(postBody)
         fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/engagements/${engagementId}`, { 
             method: "POST",
             headers: {

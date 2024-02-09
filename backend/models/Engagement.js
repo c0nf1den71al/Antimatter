@@ -13,6 +13,10 @@ const engagementSchema = new Schema({
         required: [true, "engagementIdentifier is required"],
         unique: true
     },
+    executiveSummary: {
+        type: String,
+        required: false
+    },
     startDate: {
         type: Date,
         required: false

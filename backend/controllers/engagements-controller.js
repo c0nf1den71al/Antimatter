@@ -61,11 +61,12 @@ module.exports.deleteEngagement = async (req, res) => {
 
 module.exports.updateEngagement = async (req, res) => {
     try {
-        const { engagementIdentifier = undefined, client = undefined, startDate = undefined, endDate = undefined, consultants = undefined, template = undefined, scope = undefined, status = undefined } = req.body;
+        let { engagementIdentifier = undefined, client = undefined, startDate = undefined, endDate = undefined, consultants = undefined, template = undefined, scope = undefined, status = undefined, executiveSummary = undefined } = req.body;
 
+        if(executiveSummary) executiveSummary = JSON.stringify(executiveSummary)
         const updateObject = Object.assign(
             {},
-            ...Object.entries({ engagementIdentifier, client, startDate, endDate, consultants, template, scope, status })
+            ...Object.entries({ engagementIdentifier, client, startDate, endDate, consultants, template, scope, status, executiveSummary })
                 .filter(([key, value]) => value !== undefined)
                 .map(([key, value]) => ({ [key]: value }))
         );
