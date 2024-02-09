@@ -149,6 +149,16 @@ export const columns = [
                         <Tag variant="green">{originalRow.status}</Tag>
                     </div>
                 )
+            } else if (originalRow.status === "in-progress") {
+                return (<div className="flex pl-4">
+                    <Tag variant="blue">{originalRow.status}</Tag>
+                </div>
+                )
+            } else if (originalRow.status === "delayed") {
+                return (<div className="flex pl-4">
+                    <Tag variant="red">{originalRow.status}</Tag>
+                </div>
+                )
             } else {
                 return (
                     <div className="flex pl-4">
@@ -165,11 +175,11 @@ export const columns = [
             const { engagements, setEngagements } = useData()
             const { toast } = useToast()
             const router = useRouter()
-            
+
             const deleteEngagement = async (engagementId) => {
                 try {
                     const session = await getSession()
-                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/engagements/${engagementId}`, {
+                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/engagements/${engagementId}`, {
                         method: "DELETE",
                         headers: {
                             "Authorization": `Bearer ${session.accessToken}`,
@@ -198,9 +208,9 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px]">
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/engagements/${originalRow._id}`)}}>Open</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier) }}>Copy identifier</DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => {e.stopPropagation(); router.push(`/dashboard/clients/${originalRow.client}`)}}>View Client</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/dashboard/engagements/${originalRow._id}`) }}>Open</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(originalRow.engagementIdentifier) }}>Copy identifier</DropdownMenuItem>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/dashboard/clients/${originalRow.client}`) }}>View Client</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
@@ -215,7 +225,7 @@ export const columns = [
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); deleteEngagement(originalRow._id)}}>
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); deleteEngagement(originalRow._id) }}>
                             Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>

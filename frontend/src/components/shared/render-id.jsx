@@ -29,6 +29,17 @@ export function RenderId({id, type}){
                 return <Skeleton className="h-4 w-[150px]" />;
             }
         }
+    } else if (type === "finding") {
+        if (loadingFindings || !findings) {
+            return <Skeleton className="h-4 w-[150px]" />;
+        } else {
+            const finding = findings.find(finding => finding._id === id);
+            if (finding) {
+                return finding.findingIdentifier;
+            } else {
+                return <Skeleton className="h-4 w-[150px]" />;
+            }
+        }
     } else {
         // Handle other types if necessary
         return <Skeleton className="h-4 w-[150px]" />;

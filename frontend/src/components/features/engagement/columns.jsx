@@ -166,7 +166,7 @@ export const columns = [
             const deleteFinding = async (findingId) => {
                 try {
                     const session = await getSession()
-                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${table.options.meta.engagementId}/${findingId}`, {
+                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${table.options.meta.engagementId}/${findingId}`, {
                         method: "DELETE",
                         headers: {
                             "Authorization": `Bearer ${session.accessToken}`,

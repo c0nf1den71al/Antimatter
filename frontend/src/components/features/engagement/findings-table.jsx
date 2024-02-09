@@ -140,7 +140,7 @@ export function FindingsTable({ engagementId, columns }) {
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                     className="cursor-pointer"
-                                    onClick={() => router.push(`/dashboard/engagements/${row.original._id}`)}
+                                    onClick={() => router.push(`/dashboard/engagements/${table.options.meta.engagementId}/findings/${row.original._id}`)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

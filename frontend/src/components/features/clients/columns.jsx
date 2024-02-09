@@ -156,7 +156,7 @@ export const columns = [
             const deleteClient = async (clientId) => {
                 try {
                     const session = await getSession()
-                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/clients/${clientId}`, {
+                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/clients/${clientId}`, {
                         method: "DELETE",
                         headers: {
                             "Authorization": `Bearer ${session.accessToken}`,

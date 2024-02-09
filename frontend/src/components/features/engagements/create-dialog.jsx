@@ -47,7 +47,7 @@ export function CreateDialog({ clients }) {
 
     async function onSubmit(values) {
         const session = await getSession()
-        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/engagements", { 
+        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/engagements", { 
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,

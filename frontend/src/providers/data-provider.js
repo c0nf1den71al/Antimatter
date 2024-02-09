@@ -27,7 +27,7 @@ export const DataProvider = ({ children }) => {
         async function getEngagements() {
             try {
                 const session = await getSession()
-                fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL+"/api/engagements?showClientName=true", {
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/engagements?showClientName=true", {
                     headers: {
                         "Authorization": `Bearer ${session.accessToken}`,
                     }
@@ -46,7 +46,7 @@ export const DataProvider = ({ children }) => {
         const getClients = async () => {
             try {
                 const session = await getSession()
-                fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL+"/api/clients", {
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/clients", {
                     headers: {
                         "Authorization": `Bearer ${session.accessToken}`,
                     }
@@ -65,7 +65,7 @@ export const DataProvider = ({ children }) => {
         const getVulnerabilities = async () => {
             try {
                 const session = await getSession()
-                fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL+"/api/vulnerabilities", {
+                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/vulnerabilities", {
                     headers: {
                         "Authorization": `Bearer ${session.accessToken}`,
                     }

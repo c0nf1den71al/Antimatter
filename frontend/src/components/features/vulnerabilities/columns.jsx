@@ -8,7 +8,6 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu"
 
 import { ArrowUpDown, MoreHorizontal, Check } from "lucide-react"
@@ -17,6 +16,7 @@ import { getSession } from "next-auth/react"
 import { useData } from "@/providers/data-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { stripTrailingSlash } from "@/lib/utils"
 
 export const columns = [
     {
@@ -112,7 +112,7 @@ export const columns = [
             const deleteVulnerability = async (vulnerabilityId) => {
                 try {
                     const session = await getSession()
-                    fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/vulnerabilities/${vulnerabilityId}`, {
+                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/vulnerabilities/${vulnerabilityId}`, {
                         method: "DELETE",
                         headers: {
                             "Authorization": `Bearer ${session.accessToken}`,

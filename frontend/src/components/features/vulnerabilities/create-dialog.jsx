@@ -41,7 +41,7 @@ export function CreateDialog() {
 
     async function onSubmit(values) {
         const session = await getSession()
-        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/vulnerabilities", { 
+        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/vulnerabilities", { 
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,

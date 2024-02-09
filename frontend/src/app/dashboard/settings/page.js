@@ -13,6 +13,12 @@ const breadcrumbItems = [
     {
         title: "Settings",
         href: "/dashboard/settings",
+        isCurrentPage: true
+    },
+    {
+        title: "General",
+        href: "/dashboard/settings",
+        isCurrentPage: true
     }
 ]
 
@@ -22,17 +28,21 @@ const sidebarNavItems = [
         href: `/dashboard/settings`,
     },
     {
-        title: "Account",
-        href: `#`,
-    },
-    {
-        title: "Appearance",
-        href: "#",
+        title: "Findings",
+        href: `/dashboard/settings/findings`,
     },
     {
         title: "Users",
         href: `/dashboard/settings/users`,
     },
+    {
+        title: "Templates",
+        href: `/dashboard/settings/templates`,
+    },
+    {
+        title: "Other",
+        href: `/dashboard/settings/other`
+    }
 ]
 
 export default async function Settings() {

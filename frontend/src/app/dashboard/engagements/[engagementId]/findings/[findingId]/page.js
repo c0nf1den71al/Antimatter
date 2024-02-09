@@ -1,7 +1,11 @@
+import { columns } from "@/components/features/engagement/columns"
+import { FindingsTable } from "@/components/features/engagement/findings-table"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
-import { EngagementDetails } from "@/components/features/engagement/engagement-details"
-import { Separator } from "@/components/ui/separator"
+
+export const metadata = {
+    title: "Antimatter - Finding"
+}
 
 export default async function Engagement({ params }) {
 
@@ -16,9 +20,20 @@ export default async function Engagement({ params }) {
         },
         {
             title: params.engagementId,
-            isCurrentPage: true,
-            type: "engagement"
+            type: "engagement",
+            href: `/dashboard/engagements/${params.engagementId}`
+
+        },
+        {
+            title: "Findings",
+            href: `/dashboard/engagements/${params.engagementId}/findings`
+        },
+        {
+            title: params.findingId,
+            type: "finding",
+            isCurrentPage: true
         }
+
     ]
 
     const sidebarNavItems = [
@@ -41,10 +56,9 @@ export default async function Engagement({ params }) {
             <Breadcrumbs items={breadcrumbItems} />
             <div className="flex pb-5 pt-10 flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
                 <aside className="-mx-4 lg:w-1/6">
-                    <SidebarNavigation items={sidebarNavItems} addButton={true} />
+                    <SidebarNavigation items={sidebarNavItems} addButton={true}/>
                 </aside>
                 <div className="flex-1">
-                    <EngagementDetails engagementId={params.engagementId} />
                 </div>
             </div>
         </>

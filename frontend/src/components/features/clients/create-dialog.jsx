@@ -42,7 +42,7 @@ export function CreateDialog() {
 
         console.log(values)
         
-        fetch(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL + "/api/clients", { 
+        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/clients", { 
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,

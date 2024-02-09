@@ -58,7 +58,7 @@ export function CreateDialog({ engagementId }) {
 
     async function submitCreate(values) {
         const session = await getSession()
-        fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${engagementId}`, {
+        fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${engagementId}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,
@@ -75,7 +75,7 @@ export function CreateDialog({ engagementId }) {
 
     async function submitImport(values) {
         const session = await getSession()        
-        fetch(`${process.env.NEXT_PUBLIC_ANTIMATTER_API_URL}/api/findings/${engagementId}/import`, {
+        fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${engagementId}/import`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${session.accessToken}`,
