@@ -85,21 +85,23 @@ Todo
 ### Prerequisites
 todo
 
-### Installation
+### Production Installation
 
 1. To get started with Antimatter, first clone this GitHub repository.
 ```bash
 git clone https://github.com/Antimatter-Reporting/Antimatter
 ```
+
 2. Create a `.env` environment file and customise your Antimatter instance. Please refer to [example.env](https://github.com/Antimatter-Reporting/Antimatter/blob/main/example.env) for an example configuration.
-3. Bring up Antimatter using Docker compose:
+  
+3. Bring up Antimatter using Docker compose
 ```
 docker compose up
 ```
 
-Optionally, to run Antimatter in development mode:
+### Development Installation
 
-1. Clone the repository.
+1. Alternatively, to run Antimatter in development mode, clone this GitHub repository.
 ```bash
 git clone https://github.com/Antimatter-Reporting/Antimatter
 ```
