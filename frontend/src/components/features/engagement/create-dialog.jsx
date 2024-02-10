@@ -42,52 +42,41 @@ import { useForm } from "react-hook-form"
 import { useData } from "@/providers/data-provider"
 import { useState } from "react"
 
-import { getSession } from "next-auth/react"
 import { ChevronsUpDown, Check } from "lucide-react"
 
 import { stripTrailingSlash, cn } from "@/lib/utils";
-import Engagement from "@/app/dashboard/engagements/[engagementId]/page"
 
 export function CreateDialog({ engagementId }) {
     const { toast } = useToast()
-    const { findings, setFindings, vulnerabilities, engagements, setEngagements } = useData()
+    const { setFindings, vulnerabilities } = useData()
     const form = useForm()
 
     const [createOpen, setCreateOpen] = useState(false)
     const [importOpen, setImportOpen] = useState(false)
 
     async function submitCreate(values) {
-        const session = await getSession()
-        fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${engagementId}`, {
+        const req = await fetch(`/api/findings/${engagementId}`, {
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${session.accessToken}`,
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(values)
-        }).then((res) => res.json())
-            .then((data) => {
-                form.reset()
-                setFindings(data)
-                toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
-            })
+        })
+        
+        const data = await req.json()
+        setFindings(data)
+        toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
+        form.reset()
+
     }
 
     async function submitImport(values) {
-        const session = await getSession()        
-        fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${engagementId}/import`, {
+        const req = await fetch(`/api/findings/${engagementId}/import`, {
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${session.accessToken}`,
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(values)
-        }).then((res) => res.json())
-            .then((data) => {
-                form.reset()
-                setFindings(data)
-                toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
-            })
+        })
+
+        const data = await req.json()
+        setFindings(data)
+        toast({ description: `Finding "${values.findingIdentifier}" has been created successfully.` })
+        form.reset()
     }
 
     return (
@@ -196,7 +185,7 @@ export function CreateDialog({ engagementId }) {
                                                         >
                                                             <p className="truncate">{field.value
                                                                 ? (vulnerabilities.find(vulnerability => vulnerability._id === field.value)?.title)
-                                                                : "Select client"}</p>
+                                                                : "Select vulnerability"}</p>
                                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                         </Button>
                                                     </FormControl>

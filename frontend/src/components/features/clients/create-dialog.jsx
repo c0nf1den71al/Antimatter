@@ -25,36 +25,28 @@ import { useForm } from "react-hook-form"
 import { useData } from "@/providers/data-provider"
 import { getSession } from "next-auth/react"
 
-import { stripTrailingSlash } from "@/lib/utils";
-
 export function CreateDialog() {
     const { toast } = useToast()
     const { clients, setClients } = useData()
     const form = useForm()
 
     async function onSubmit(values) {
-        const session = await getSession()
         values.contact = {}
         values.contact.fullName = values.contactFullName
         values.contact.email = values.contactEmail
         delete values.contactFullName
         delete values.contactEmail
 
-        console.log(values)
-        
-        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/clients", { 
+        const res = await fetch("/api/clients", { 
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${session.accessToken}`,
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(values)
-        }).then((res) => res.json())
-        .then((data) => {
-            form.reset()
-            setClients([...clients, data])
-            toast({ description: `Client "${data.clientIdendifier}" has been created successfully.` })
         })
+        
+        const data = await res.json()
+
+        setClients([...clients, data])
+        toast({ description: `Client "${data.clientIdendifier}" has been created successfully.` })
+        form.reset()
     }
 
     return (

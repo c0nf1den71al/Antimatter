@@ -26,16 +26,10 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         async function getEngagements() {
             try {
-                const session = await getSession()
-                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/engagements?showClientName=true", {
-                    headers: {
-                        "Authorization": `Bearer ${session.accessToken}`,
-                    }
-                }).then((res) => res.json())
-                .then((data) => {
-                    setEngagements(data)
-                })
-            } catch(error) {
+                const res = await fetch("/api/engagements")
+                const data = await res.json()
+                setEngagements(data)
+            } catch (error) {
                 console.log(error)
                 setEngagements([]);
             } finally {
@@ -45,16 +39,10 @@ export const DataProvider = ({ children }) => {
 
         const getClients = async () => {
             try {
-                const session = await getSession()
-                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/clients", {
-                    headers: {
-                        "Authorization": `Bearer ${session.accessToken}`,
-                    }
-                }).then((res) => res.json())
-                .then((data) => {
-                    setClients(data)
-                })
-            } catch(error) {
+                const res = await fetch("/api/clients")
+                const data = await res.json()
+                setClients(data)
+            } catch (error) {
                 console.log(error)
                 setClients([]);
             } finally {
@@ -64,16 +52,10 @@ export const DataProvider = ({ children }) => {
 
         const getVulnerabilities = async () => {
             try {
-                const session = await getSession()
-                fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)+"/api/vulnerabilities", {
-                    headers: {
-                        "Authorization": `Bearer ${session.accessToken}`,
-                    }
-                }).then((res) => res.json())
-                .then((data) => {
-                    setVulnerabilities(data)
-                })
-            } catch(error) {
+                const res = await fetch("/api/vulnerabilities")
+                const data = await res.json()
+                setVulnerabilities(data)
+            } catch (error) {
                 console.log(error)
                 setVulnerabilities([]);
             } finally {
@@ -84,14 +66,14 @@ export const DataProvider = ({ children }) => {
         getEngagements();
         getClients();
         getVulnerabilities();
-        },[])
+    }, [])
 
 
     return (
         <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, findings, setFindings, loadingFindings, setLoadingFindings, templates, setTemplates, loadingTemplates }}>
             {children}
         </DataContext.Provider>
-        )
+    )
 }
 
 export const useData = () => useContext(DataContext)

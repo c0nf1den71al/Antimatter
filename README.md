@@ -92,13 +92,26 @@ todo
 git clone https://github.com/Antimatter-Reporting/Antimatter
 ```
 2. Create a `.env` environment file and customise your Antimatter instance. Please refer to [example.env](https://github.com/Antimatter-Reporting/Antimatter/blob/main/example.env) for an example configuration.
+3. Bring up Antimatter using Docker compose:
+```
+docker compose up
+```
 
-4. Install the prerequisites by executing the following command in the `frontend` and `backend` folders:
+Optionally, to run Antimatter in development mode:
+
+1. Clone the repository.
+```bash
+git clone https://github.com/Antimatter-Reporting/Antimatter
+```
+
+2. Create a `.env` environment file and customise your Antimatter instance. Please refer to [example.env](https://github.com/Antimatter-Reporting/Antimatter/blob/main/example.env) for an example configuration.
+
+3. Install the prerequisites by executing the following command in the `frontend` and `backend` folders:
 ```
 npm i
 ```
 
-3. Bring up Antimatter using Docker Compose.
+4. Bring up Antimatter using Docker Compose.
 ```
 docker compose -f docker-compose.dev.yml up
 ```

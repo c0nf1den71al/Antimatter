@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const Engagement = require('../models/Engagement')
 const Vulnerability = require('../models/Vulnerability')
 
@@ -45,8 +46,8 @@ module.exports.importVulnerability = async (req, res) => {
         let findings = engagement.findings
         
         let newFinding = await Vulnerability.findById(vulnerabilityId).lean()
+        newFinding._id = new mongoose.Types.ObjectId() // Create a new _id otherwise the one from the imported vuln is used
         newFinding.findingIdentifier = findingIdentifier
-        
         findings.push(newFinding)
 
         const updatedDocument = await Engagement.findByIdAndUpdate(req.params.engagementId, {

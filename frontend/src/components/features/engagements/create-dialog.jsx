@@ -35,7 +35,6 @@ import {
 import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form"
 import { useData } from "@/providers/data-provider"
-import { getSession } from "next-auth/react"
 
 import { stripTrailingSlash, cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react"
@@ -46,23 +45,18 @@ export function CreateDialog({ clients }) {
     const form = useForm()
 
     async function onSubmit(values) {
-        const session = await getSession()
-        fetch(stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL) + "/api/engagements", { 
+        const res = await fetch("/api/engagements", { 
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${session.accessToken}`,
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(values)
-        }).then((res) => res.json())
-        .then((data) => {
-            form.reset()
-            const client = clients.find((client) => client._id == values.client)
-            data.clientLongName = client.longName
-            data.clientShortName = client?.shortName
-            setEngagements([...engagements, data])
-            toast({ description: `Engagement "${data.engagementIdentifier}" has been created successfully.` })
         })
+
+        const data = await res.json()
+        const client = clients.find((client) => client._id == values.client)
+        data.clientLongName = client.longName
+        data.clientShortName = client?.shortName
+        setEngagements([...engagements, data])
+        toast({ description: `Engagement "${data.engagementIdentifier}" has been created successfully.` })
+        form.reset()
     }
 
     return (

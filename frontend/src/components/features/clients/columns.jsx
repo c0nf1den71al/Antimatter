@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { getSession } from "next-auth/react"
 import { useData } from "@/providers/data-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
@@ -155,19 +154,12 @@ export const columns = [
             
             const deleteClient = async (clientId) => {
                 try {
-                    const session = await getSession()
-                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/clients/${clientId}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Bearer ${session.accessToken}`,
-                        }
-                    }).then((res) => res.json())
-                        .then((data) => {
-                            setClients(clients.filter(client =>
-                                client._id !== clientId
-                            ))
-                            toast({ description: `Client "${data.clientIdentifier}" has been deleted.` })
-                        })
+                    const req = await fetch(`/api/clients/${clientId}`, { method: "DELETE" })
+                    const data = await req.json()
+                    setClients(clients.filter(client =>
+                        client._id !== clientId
+                    ))
+                    toast({ description: `Client "${data.clientIdentifier}" has been deleted.` })
                 } catch (error) {
                     console.log(error)
                 }

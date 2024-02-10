@@ -16,7 +16,7 @@ export function Summary({ engagementId }) {
 
     const executiveSummary = useRef(null)
     const {toast} = useToast()
-    const { engagements, loadingEngagements } = useData()
+    const { engagements, setEngagements, loadingEngagements } = useData()
 
     const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
@@ -26,21 +26,18 @@ export function Summary({ engagementId }) {
         // Handle the case where editor is null
         if (editor) {
 
-            const session = await getSession()
-            fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/engagements/${engagementId}`, { 
+            const res = await fetch(`/api/engagements/${engagementId}`, { 
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${session.accessToken}`,
-                    "Content-Type": "application/json"
-                },
                 body: JSON.stringify({executiveSummary: editor.children})
-            }).then((res) => res.json())
-            .then((data) => {
-                // const engagement = engagements.find((engagement) => engagement._id === engagementId)
-                
-                // setEngagements([...engagements, data])
-                toast({ description: `Engagement "${data.engagementIdentifier}" has been updated successfully.` })
-            })
+            }) 
+            
+            const data = await res.json()
+            let updatedEngagements = [...engagements]
+            updatedEngagements[engagements.findIndex(engagement => engagement._id === engagementId)] = data
+
+            setEngagements(updatedEngagements)
+            toast({ description: `Engagement "${data.engagementIdentifier}" has been updated successfully.` })
+
         }
     }, []);
 

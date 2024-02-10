@@ -178,19 +178,12 @@ export const columns = [
 
             const deleteEngagement = async (engagementId) => {
                 try {
-                    const session = await getSession()
-                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/engagements/${engagementId}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Bearer ${session.accessToken}`,
-                        }
-                    }).then((res) => res.json())
-                        .then((data) => {
-                            setEngagements(engagements.filter(engagement =>
-                                engagement._id !== engagementId
-                            ))
-                            toast({ description: `Engagement "${data.engagementIdentifier}" has been deleted.` })
-                        })
+                    const req = await fetch(`/api/engagements/${engagementId}`, { method: "DELETE" })
+                    const data = await req.json()
+                    setEngagements(engagements.filter(engagement =>
+                        engagement._id !== engagementId
+                    ))
+                    toast({ description: `Engagement "${data.engagementIdentifier}" has been deleted.` })
                 } catch (error) {
                     console.log(error)
                 }

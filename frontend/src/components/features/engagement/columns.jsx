@@ -19,7 +19,6 @@ import {
 import { Tag } from "@/components/shared/tag"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { getSession } from "next-auth/react"
 import { useData } from "@/providers/data-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
@@ -165,19 +164,14 @@ export const columns = [
             const router = useRouter()
             const deleteFinding = async (findingId) => {
                 try {
-                    const session = await getSession()
-                    fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/findings/${table.options.meta.engagementId}/${findingId}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Bearer ${session.accessToken}`,
-                        }
-                    }).then((res) => res.json())
-                        .then((data) => {
-                            setFindings(findings.filter(finding =>
-                                finding._id !== findingId
-                            ))
-                            toast({ description: `Finding "${originalRow.findingIdentifier}" has been deleted.` })
-                        })
+                    const res = await fetch(`/api/findings/${table.options.meta.engagementId}/${findingId}`, { method: "DELETE" })
+                    const data = await res.json()
+                        
+                    setFindings(findings.filter(finding =>
+                        finding._id !== findingId
+                    ))
+                    toast({ description: `Finding "${originalRow.findingIdentifier}" has been deleted.` })
+
                 } catch (error) {
                     console.log(error)
                 }

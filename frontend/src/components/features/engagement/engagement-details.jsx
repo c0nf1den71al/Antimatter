@@ -38,8 +38,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Check, ChevronsUpDown, PlusCircleIcon, Calendar as CalendarIcon, Badge } from "lucide-react"
 import { useData } from "@/providers/data-provider"
 import { useForm } from "react-hook-form"
-import { useState, useEffect } from "react"
-import { getSession } from "next-auth/react"
+import { useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
 
 
@@ -48,33 +47,31 @@ import { format } from "date-fns"
 
 
 export function EngagementDetails({ engagementId }) {
-    const { engagements, clients } = useData()
+    const { engagements, setEngagements, clients } = useData()
     const form = useForm()
     const {toast} = useToast()
 
     const engagement = engagements.filter((engagement) => engagement._id == engagementId)[0]
 
     async function onSubmit(values) {
-        const session = await getSession()
         let postBody = values
         postBody.startDate = values?.dateRange?.from
         postBody.endDate = values?.dateRange?.to
         delete postBody?.dateRange
 
-        fetch(`${stripTrailingSlash(process.env.NEXT_PUBLIC_ANTIMATTER_API_URL)}/api/engagements/${engagementId}`, { 
+        const res = await fetch(`/api/engagements/${engagementId}`, { 
             method: "POST",
-            headers: {
-                "Authorization": `Bearer ${session.accessToken}`,
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(postBody)
-        }).then((res) => res.json())
-        .then((data) => {
-            // const engagement = engagements.find((engagement) => engagement._id === engagementId)
-            
-            // setEngagements([...engagements, data])
-            toast({ description: `Engagement "${data.engagementIdentifier}" has been updated successfully.` })
         })
+        
+        const data = await res.json()
+        const oldEngagement = engagements.find((engagement) => engagement._id === engagementId)
+        data.clientShortName = oldEngagement.clientShortName
+        data.clientLongName = oldEngagement.clientLongName
+
+        setEngagements([...engagements.filter((engagement => engagement._id !== engagementId)), data])
+        toast({ description: `Engagement "${data.engagementIdentifier}" has been updated successfully.` })
+
     }
 
 
