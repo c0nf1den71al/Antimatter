@@ -1,4 +1,5 @@
 const Engagement = require('../models/Engagement')
+const { createLog } = require('../lib/utils')
 
 module.exports.getEngagements = async (req, res) => {
     try {
@@ -29,6 +30,7 @@ module.exports.getEngagements = async (req, res) => {
         }
 
     } catch (e) {
+        createLog("error", e)
         return res.json({ error: "An error occured" }).status(500)
     }
 }
@@ -41,9 +43,10 @@ module.exports.createEngagement = async (req, res) => {
             engagementIdentifier,
             client
         })
+        createLog("info", `The engagement "${engagementIdentifier}" was created successfully`)
         return res.json(engagement)
     } catch (e) {
-        console.log(e)
+        createLog("error", e)
         return res.json({ error: "An error occured" }).status(500)
     }
 }
@@ -51,9 +54,10 @@ module.exports.createEngagement = async (req, res) => {
 module.exports.deleteEngagement = async (req, res) => {
     try {
         const engagements = await Engagement.findByIdAndDelete(req.params.engagementId, { new: true })
+        createLog("info", `The client "${engagements.engagementIdentifier}" was deleted successfully`)
         return res.json(engagements)
     } catch (e) {
-        console.log(e)
+        createLog("error", e)
         return res.json({ error: "An error occured" }).status(500)
     }
 }
@@ -73,6 +77,7 @@ module.exports.updateEngagement = async (req, res) => {
 
         if (Object.keys(updateObject).length > 0) {
             const engagement = await Engagement.findByIdAndUpdate(req.params.engagementId, updateObject, { new: true });
+            createLog("info", `The engagement "${engagementIdentifier}" was updated successfully`)
             res.json(engagement)
         } else {
             return res.json({ error: "Please specify a field to update" })

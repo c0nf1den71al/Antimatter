@@ -68,7 +68,6 @@ export const DataProvider = ({ children }) => {
         getVulnerabilities();
     }, [])
 
-
     return (
         <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, findings, setFindings, loadingFindings, setLoadingFindings, templates, setTemplates, loadingTemplates }}>
             {children}

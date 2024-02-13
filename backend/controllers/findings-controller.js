@@ -1,13 +1,14 @@
 const { default: mongoose } = require('mongoose')
 const Engagement = require('../models/Engagement')
 const Vulnerability = require('../models/Vulnerability')
+const { createLog } = require('../lib/utils')
 
 module.exports.getFindings = async (req, res) => {
     try {
         const engagement = await Engagement.findById(req.params.engagementId)
         return res.json(engagement?.findings)
     } catch (e) {
-        console.log(e)
+        createLog("error", e)
         return res.json({error: "An error occured"}).status(500)
     }   
 }
@@ -31,8 +32,10 @@ module.exports.createFinding = async (req, res) => {
             new: true
         })
 
+        createLog("info", `The finding "${findingIdentifier}" was created successfully`)
         return res.json(updatedDocument.findings)
     } catch (e) {
+        createLog("error", e)
         return res.json({error: "An error occured"}).status(500)
     }
 }
@@ -55,9 +58,10 @@ module.exports.importVulnerability = async (req, res) => {
         }, {
             new: true
         })
-
+        createLog("info", `The finding "${findingIdentifier}" was imported successfully`)
         return res.json(updatedDocument.findings)
     } catch (e) {
+        createLog("error", e)
         return res.json({error: "An error occured"}).status(500)
     }
 }
@@ -71,7 +75,7 @@ module.exports.deleteFinding = async (req, res) => {
         })
         return res.json(updatedEngagement?.findings)
     } catch (e) {
-        console.log(e)
+        createLog("error", e)
         return res.json({error: "An error occured"}).status(500)
     }   
 }
