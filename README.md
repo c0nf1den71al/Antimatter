@@ -9,10 +9,10 @@
   <p align="center">
     Report writing and vulnerability management platform.
     <br /><br />
-    <a href="#"><strong>Explore the docs »</strong></a>
+    <a href="https://antimatter.jamiepegg.com"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="#">View Demo</a>
+    <a href="https://antimatter.jamiepegg.com">View Demo</a>
     ·
     <a href="https://github.com/Antimatter-Reporting/Antimatter/issues">Report Bug</a>
     ·
