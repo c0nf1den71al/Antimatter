@@ -17,7 +17,7 @@ const breadcrumbItems = [
         isCurrentPage: true
     },
     {
-        title: "General",
+        title: "Vulnerabilities",
         href: "/dashboard/settings",
         isCurrentPage: true
     }
@@ -56,7 +56,7 @@ export default async function Settings() {
                     <SidebarNavigation items={sidebarNavItems} />
                 </aside>
                 <div className="flex-1 h-full relative">
-                    <GeneralSettings />
+                    {/* <GeneralSettings /> */}
                 </div>
             </div>
         </div>

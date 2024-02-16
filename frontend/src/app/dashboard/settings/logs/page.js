@@ -28,8 +28,8 @@ const sidebarNavItems = [
         href: `/dashboard/settings`,
     },
     {
-        title: "Findings",
-        href: `/dashboard/settings/findings`,
+        title: "Vulnerabilities",
+        href: `/dashboard/settings/vulnerabilities`,
     },
     {
         title: "Users",
