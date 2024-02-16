@@ -22,8 +22,24 @@ export const DataProvider = ({ children }) => {
     const [templates, setTemplates] = useState([])
     const [loadingTemplates, setLoadingTemplates] = useState(true)
 
+    const [settings, setSettings] = useState([])
+    const [loadingSettings, setLoadingSettings] = useState(true)
+
 
     useEffect(() => {
+        async function getSettings() {
+            try {
+                const res = await fetch("/api/settings")
+                const data = await res.json()
+                setSettings(data)
+            } catch (error) {
+                console.log(error)
+                setEngagements([])
+            } finally {
+                setLoadingSettings(false)
+            }
+        }
+
         async function getEngagements() {
             try {
                 const res = await fetch("/api/engagements")
@@ -63,13 +79,14 @@ export const DataProvider = ({ children }) => {
             }
         }
 
+        getSettings();
         getEngagements();
         getClients();
         getVulnerabilities();
     }, [])
 
     return (
-        <DataContext.Provider value={{ engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, findings, setFindings, loadingFindings, setLoadingFindings, templates, setTemplates, loadingTemplates }}>
+        <DataContext.Provider value={{ settings, setSettings, loadingSettings, engagements, setEngagements, loadingEngagements, clients, setClients, loadingClients, vulnerabilities, setVulnerabilities, loadingVulnerabilities, findings, setFindings, loadingFindings, setLoadingFindings, templates, setTemplates, loadingTemplates }}>
             {children}
         </DataContext.Provider>
     )

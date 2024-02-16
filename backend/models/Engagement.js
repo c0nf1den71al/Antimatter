@@ -89,7 +89,7 @@ const engagementSchema = new Schema({
         },
         severity: {
             type: String,
-            enum: ["informational", "low", "medium", "high", "critical"],
+            enum: ["informational", "low", "moderate", "high", "critical"],
             default: "informational"
         },
         status: {

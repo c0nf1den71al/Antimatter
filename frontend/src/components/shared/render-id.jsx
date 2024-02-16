@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 export function RenderId({id, type}){
     const {engagements, loadingEngagements, findings, loadingFindings, vulnerabilities, loadingVulnerabilities, clients, loadingClients} = useData()
 
-    
     if (type === "engagement") {
         if (loadingEngagements || !engagements) {
             return <Skeleton className="h-4 w-[150px]" />;
@@ -36,6 +35,17 @@ export function RenderId({id, type}){
             const finding = findings.find(finding => finding._id === id);
             if (finding) {
                 return finding.findingIdentifier;
+            } else {
+                return <Skeleton className="h-4 w-[150px]" />;
+            }
+        }
+    } else if (type === "vulnerability") {
+        if (loadingVulnerabilities || !vulnerabilities) {
+            return <Skeleton className="h-4 w-[150px]" />;
+        } else {
+            const vulnerability = vulnerabilities.find(vulnerability => vulnerability._id === id);
+            if (vulnerability) {
+                return vulnerability.vulnerabilityIdentifier;
             } else {
                 return <Skeleton className="h-4 w-[150px]" />;
             }

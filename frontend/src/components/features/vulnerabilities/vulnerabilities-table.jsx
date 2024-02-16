@@ -127,10 +127,10 @@ export function VulnerabilitiesTable({ columns, data }) {
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
-                                    key={row.id}
+                                    key={row._id}
                                     data-state={row.getIsSelected() && "selected"}
                                     className="cursor-pointer"
-                                    onClick={() => router.push(`/dashboard/engagements/728ed52fab322ae9f00ac21f5ae3d2cff70/${row.original.id}`)}
+                                    onClick={() => router.push(`/dashboard/vulnerabilities/${row.original._id}`)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

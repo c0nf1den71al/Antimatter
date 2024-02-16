@@ -131,7 +131,7 @@ export function EngagementDetails({ engagementId }) {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Status</FormLabel>
-                                            <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                            <Select onValueChange={field.onChange} value={field.value} defaultValue={engagement?.status}>
                                                 <FormControl>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Select a status" />

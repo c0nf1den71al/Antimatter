@@ -134,7 +134,7 @@ export const columns = [
                         <Tag variant="red">{originalRow.severity}</Tag>
                     </div>
                 )
-            } else if (originalRow.severity === "medium") {
+            } else if (originalRow.severity === "moderate") {
                 return (
                     <div className="flex pl-4">
                         <Tag variant="amber">{originalRow.severity}</Tag>
@@ -196,7 +196,7 @@ export const columns = [
                             <DropdownMenuSubTrigger>Severity</DropdownMenuSubTrigger>
                             <DropdownMenuSubContent>
                                 <DropdownMenuRadioGroup value={originalRow.severity}>
-                                    {["Critical", "High", "Medium", "Low", "Informational"].map((status) => (
+                                    {["Critical", "High", "Moderate", "Low", "Informational"].map((status) => (
                                         <DropdownMenuRadioItem key={originalRow.id} value={status.toLocaleLowerCase()}>
                                             {status}
                                         </DropdownMenuRadioItem>
