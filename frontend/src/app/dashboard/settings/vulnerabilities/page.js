@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
-import { GeneralSettings } from "@/components/features/settings/general-settings"
+import { VulnerabilitySettings } from "@/components/features/settings/vulnerability-settings"
 
 export const metadata = {
     title: "Antimatter - Settings"
@@ -60,7 +60,7 @@ export default async function Settings() {
                     <SidebarNavigation items={sidebarNavItems} />
                 </aside>
                 <div className="flex-1 h-full relative">
-                    {/* <GeneralSettings /> */}
+                    <VulnerabilitySettings />
                 </div>
             </div>
         </div>

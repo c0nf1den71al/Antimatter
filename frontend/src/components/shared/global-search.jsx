@@ -9,7 +9,9 @@ import {
     Route,
     Building2,
     Bug,
-    Paintbrush2
+    Users,
+    UserCog,
+    FileClock
 } from "lucide-react"
 
 import {
@@ -121,37 +123,34 @@ export function GlobalSearch() {
                             <CommandSeparator />
                         </>
                     )}
-                    {!loadingTemplates && templates.length > 0 && (
-                        <>
-                            <CommandGroup heading="Templates">
-                                {templates.map((template) => {
-                                    return (
-                                        <CommandItem key={template._id} onSelect={() => runCommand(() => router.push(`/dashboard/templates/${template._id}`))}>
-                                            <FileCode2 className="mr-2 h-4 w-4" />
-                                            <span>{template.name}</span>
-                                        </CommandItem>
-                                    )
-                                })}
-                            </CommandGroup>
-                            <CommandSeparator />
-                        </>
-                    )}
                     <CommandGroup heading="Settings">
                         <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
                             <Sliders className="mr-2 h-4 w-4" />
                             <span>General</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/account"))}>
                             <User className="mr-2 h-4 w-4" />
                             <span>Account</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
-                            <Paintbrush2 className="mr-2 h-4 w-4" />
-                            <span>Apperance</span>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/vulnerabilities"))}>
+                            <Bug className="mr-2 h-4 w-4" />
+                            <span>Findings & Vulnerabilities</span>
                         </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings"))}>
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/users"))}>
+                            <Users className="mr-2 h-4 w-4" />
+                            <span>Users</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/roles"))}>
+                            <UserCog className="mr-2 h-4 w-4" />
+                            <span>Roles</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/templates"))}>
+                            <FileCode2 className="mr-2 h-4 w-4" />
+                            <span>Templates</span>
+                        </CommandItem>
+                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/logs"))}>
+                            <FileClock className="mr-2 h-4 w-4" />
+                            <span>Logs</span>
                         </CommandItem>
                     </CommandGroup>
                 </CommandList>

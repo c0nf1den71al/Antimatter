@@ -1,46 +1,51 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Ratio } from "lucide-react"
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuTriggerStyle
+} from "@/components/ui/navigation-menu"
+
 
 export function NavigationLinks() {
-    const path = usePathname()
     return (
-        <nav className="mr-6 flex items-center space-x-4">
-            <Link href="/dashboard">
-                <Ratio className="h-6" />
-            </Link>
-            
-            <Link
-                href="/dashboard/engagements"
-                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("engagements") ? "" : "text-muted-foreground"}`}
-            >
-                Engagements
-            </Link>
-            <Link
-                href="/dashboard/vulnerabilities"
-                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("vulnerabilities") ? "" : "text-muted-foreground"}`}
-            >
-                Vulnerabilities
-            </Link>
-            <Link
-                href="/dashboard/clients"
-                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("clients") ? "" : "text-muted-foreground"}`}
-            >
-                Clients
-            </Link>
-            <Link
-                href="/dashboard/templates"
-                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("templates") ? "" : "text-muted-foreground"}`}
-            >
-                Templates
-            </Link>
-            <Link
-                href="/dashboard/settings"
-                className={`text-sm font-medium transition-colors hover:text-primary ${path.includes("settings") ? "" : "text-muted-foreground"}`}
-            >
-                Settings
-            </Link>
-        </nav>
+        <NavigationMenu>
+            <NavigationMenuList>
+                <NavigationMenuItem>
+                    <Link href="/dashboard" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Dashboard
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/dashboard/engagements" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Engagements
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/dashboard/vulnerabilities" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Vulnerabilities
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/dashboard/clients" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Clients
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </NavigationMenu>
+
     )
 }
+
+
