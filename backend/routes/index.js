@@ -7,6 +7,7 @@ const clientRoutes = require('./clients-routes')
 const vulerabilitiesRoutes = require('./vulnerabilities-routes')
 const findingsRoutes = require('./findings-routes')
 const logRoutes = require('./logs-routes')
+const categoriesRoutes = require('./categories-routes')
 // ...
 
 // Use routes
@@ -16,6 +17,7 @@ router.use('/clients', clientRoutes);
 router.use('/vulnerabilities', vulerabilitiesRoutes);
 router.use('/findings', findingsRoutes);
 router.use('/logs', logRoutes);
+router.use('/categories', categoriesRoutes)
 // ... 
 
 module.exports = router;
