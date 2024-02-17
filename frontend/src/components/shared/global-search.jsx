@@ -2,7 +2,6 @@
 
 import {
     Sliders,
-    Settings,
     FileCode2,
     Search,
     User,
@@ -138,11 +137,7 @@ export function GlobalSearch() {
                         </CommandItem>
                         <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/users"))}>
                             <Users className="mr-2 h-4 w-4" />
-                            <span>Users</span>
-                        </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/roles"))}>
-                            <UserCog className="mr-2 h-4 w-4" />
-                            <span>Roles</span>
+                            <span>Users & Roles</span>
                         </CommandItem>
                         <CommandItem onSelect={() => runCommand(() => router.push("/dashboard/settings/templates"))}>
                             <FileCode2 className="mr-2 h-4 w-4" />

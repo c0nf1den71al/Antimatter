@@ -12,7 +12,7 @@ const breadcrumbItems = [
         href: "/dashboard",
     },
     {
-        title: "Vulnerabilities",
+        title: "Findings & Vulnerabilities",
         href: "/dashboard/vulnerabilities",
         isCurrentPage: true
     }
