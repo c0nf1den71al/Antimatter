@@ -37,6 +37,10 @@ const sidebarNavItems = [
         href: `/dashboard/settings/users`,
     },
     {
+        title: "Roles",
+        href: `/dashboard/settings/roles`
+    },
+    {
         title: "Templates",
         href: `/dashboard/settings/templates`,
     },

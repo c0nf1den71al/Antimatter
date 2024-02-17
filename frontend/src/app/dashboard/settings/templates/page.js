@@ -16,7 +16,7 @@ const breadcrumbItems = [
         isCurrentPage: true
     },
     {
-        title: "Templates",
+        title: "Vulnerabilities",
         href: "/dashboard/settings",
         isCurrentPage: true
     }
@@ -34,6 +34,10 @@ const sidebarNavItems = [
     {
         title: "Users",
         href: `/dashboard/settings/users`,
+    },
+    {
+        title: "Roles",
+        href: `/dashboard/settings/roles`
     },
     {
         title: "Templates",
