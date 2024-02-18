@@ -21,9 +21,7 @@ import {
     CommandEmpty,
     CommandGroup,
     CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator
+    CommandItem
 } from "@/components/ui/command"
 import {
     Select,
