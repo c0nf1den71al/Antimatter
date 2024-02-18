@@ -50,8 +50,8 @@ export function GeneralSettings({ vulnerabilityId }) {
 
 
     useEffect(() => {
-        form.setValue("webPort", settings?.webPort)
-        form.setValue("apiPort", settings?.apiPort)
+        form.setValue("webPort", settings.find(setting => setting.name === "ports")?.value.web)
+        form.setValue("apiPort", settings.find(setting => setting.name === "ports")?.value.api)
 
         const down = (e) => {
             if (e.key === "s" && (e.metaKey || e.ctrlKey)) {

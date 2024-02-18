@@ -81,25 +81,11 @@ export const DataProvider = ({ children }) => {
                 setLoadingVulnerabilities(false)
             }
         }
-        
-        const getCategories = async () => {
-            try {
-                const res = await fetch("/api/categories")
-                const data = await res.json()
-                setCategories(data)
-            } catch (error) {
-                console.log(error)
-                setCategories([]);
-            } finally {
-                setLoadingCategories(false)
-            }
-        }
 
         getSettings();
         getEngagements();
         getClients();
         getVulnerabilities();
-        getCategories();
     }, [])
 
     return (
@@ -109,9 +95,8 @@ export const DataProvider = ({ children }) => {
             clients, setClients, loadingClients,
             vulnerabilities, setVulnerabilities, loadingVulnerabilities,
             findings, setFindings, loadingFindings, setLoadingFindings,
-            templates, setTemplates, loadingTemplates,
-            categories, setCategories, loadingCategories
-            }}>
+            templates, setTemplates, loadingTemplates
+        }}>
             {children}
         </DataContext.Provider>
     )
