@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const createToken = (id, email, role) => {
     return jwt.sign({ id, email, role }, process.env.ANTIMATTER_TOKEN_SECRET, {
-        // expiresIn: process.env.ANTIMATTER_TOKEN_AGE -- DOESNT WORK?
         expiresIn: 86400
     });
 };
@@ -37,7 +36,6 @@ module.exports.verifyJwt = async (req, res) => {
         const user = await User.findOne({
             email: decoded.email
         });
-
         if (user) {
             res.status(200).json({
                 email: user.email,
@@ -49,6 +47,7 @@ module.exports.verifyJwt = async (req, res) => {
         }
 
     } catch (err) {
+        console.log(err)
         res.status(401).json({
             message: "JWT Invalid."
         });

@@ -40,9 +40,27 @@ export const authOptions = {
 
             return token;
         },
+
         async session({ session, token }) {
             session.accessToken = token.accessToken
-            return session;
+            if (session?.accessToken) {
+                try{
+                    const res = await fetch(`http://backend:${process.env.ANTIMATTER_API_PORT}/api/auth/verify`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({jwt: session.accessToken})
+                    })
+                    const data = await res.json();
+                    if(session.user.email === data.email) {
+                        return session;
+                    }
+                } catch(error) {
+                    console.log(error)
+                }
+                
+            }
         },
     },
 }

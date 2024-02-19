@@ -5,9 +5,14 @@ import { Ratio } from "lucide-react"
 
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { redirect } from "next/navigation"
 
 export async function Navigation() {
     const session = await getServerSession(authOptions)
+    if (!session) {
+        fetch("/api/auth/signout", {method: "POST"})
+        redirect("/auth/login")
+    }
     return (
         <div className="border-b">
             <div className="flex h-16 items-center px-4">
