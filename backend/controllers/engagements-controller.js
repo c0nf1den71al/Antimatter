@@ -41,7 +41,8 @@ module.exports.createEngagement = async (req, res) => {
         if (!engagementIdentifier || !client) return res.json({ error: "'engagementIdentifier' and 'client' are required." })
         const engagement = await Engagement.create({
             engagementIdentifier,
-            client
+            client,
+            executiveSummary: "[]"
         })
         createLog("info", `The engagement "${engagementIdentifier}" was created successfully`)
         return res.json(engagement)

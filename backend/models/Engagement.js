@@ -15,7 +15,8 @@ const engagementSchema = new Schema({
     },
     executiveSummary: {
         type: String,
-        required: false
+        required: false,
+        default: "[]"
     },
     startDate: {
         type: Date,
@@ -69,19 +70,23 @@ const engagementSchema = new Schema({
         },
         summary: {
             type: String,
-            required: false
+            required: false,
+            default: "[]"
         },
         evidence: {
             type: String,
-            required: false
+            required: false,
+            default: "[]"
         },
         impact: {
             type: String,
-            required: false
+            required: false,
+            default: "[]"
         },
         remediation: {
             type: String,
-            required: false
+            required: false,
+            default: "[]"
         },
         references: {
             type: String,

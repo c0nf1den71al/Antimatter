@@ -2,12 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { TextEditor } from "@/components/shared/text-editor"
 import { useCallback, useRef, useEffect } from "react"
-import { serializeHtml } from "@udecode/plate-serializer-html"
-import { getSession } from "next-auth/react"
-import { stripTrailingSlash } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import { useData } from "@/providers/data-provider"
 import { Loader2 } from "lucide-react"
