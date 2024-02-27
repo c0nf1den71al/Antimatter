@@ -2,6 +2,7 @@ import { columns } from "@/components/features/engagement/columns"
 import { FindingsTable } from "@/components/features/engagement/findings-table"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
+import { ArrowLeft } from "lucide-react"
 
 export const metadata = {
     title: "Antimatter - Findings"
@@ -31,6 +32,12 @@ export default async function Engagement({ params }) {
     ]
 
     const sidebarNavItems = [
+        {
+            title: <><ArrowLeft className="mr-2 h-4 w-4" /> Back</>,
+            href: `/dashboard/engagements/${params.engagementId}`,
+            variant: "outline",
+            className: "mb-4"
+        },
         {
             title: "Overview",
             href: `/dashboard/engagements/${params.engagementId}`,

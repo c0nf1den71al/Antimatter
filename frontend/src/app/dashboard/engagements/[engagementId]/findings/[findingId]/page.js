@@ -3,6 +3,8 @@ import { FindingDetail } from "@/components/features/findings/finding-detail"
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
 
+import { ArrowLeft } from "lucide-react"
+
 export const metadata = {
     title: "Antimatter - Finding"
 }
@@ -38,12 +40,14 @@ export default async function Engagement({ params }) {
 
     const sidebarNavItems = [
         {
-            title: "Overview",
-            href: `/dashboard/engagements/${params.engagementId}`,
+            title: <><ArrowLeft className="mr-2 h-4 w-4" /> Back</>,
+            href: `/dashboard/engagements/${params.engagementId}/findings`,
+            variant: "outline",
+            className: "mb-4"
         },
         {
-            title: "Executive Summary",
-            href: `/dashboard/engagements/${params.engagementId}/summary`,
+            title: "Overview",
+            href: `/dashboard/engagements/${params.engagementId}/findings/${params.findingId}`,
         },
         {
             title: "Findings",

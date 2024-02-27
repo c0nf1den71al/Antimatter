@@ -24,11 +24,12 @@ export function SidebarNavigation({ className, items, addButton, ...props }) {
           key={item.href}
           href={item.href}
           className={cn(
-            buttonVariants({ variant: "ghost" }),
+            buttonVariants({ variant: item?.variant ? item.variant : "ghost" }),
             pathname === item.href
               ? "bg-muted hover:bg-muted"
               : "hover:bg-transparent hover:underline",
-            "justify-start"
+            "justify-start",
+            item.className
           )}
         >
           {item.title}

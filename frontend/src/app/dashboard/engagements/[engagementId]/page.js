@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs"
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation"
 import { EngagementDetails } from "@/components/features/engagement/engagement-details"
-import { Separator } from "@/components/ui/separator"
+import { ArrowLeft } from "lucide-react"
 
 export default async function Engagement({ params }) {
 
@@ -22,6 +22,12 @@ export default async function Engagement({ params }) {
     ]
 
     const sidebarNavItems = [
+        {
+            title: <><ArrowLeft className="mr-2 h-4 w-4" /> Back</>,
+            href: `/dashboard/engagements`,
+            variant: "outline",
+            className: "mb-4"
+        },
         {
             title: "Overview",
             href: `/dashboard/engagements/${params.engagementId}`,

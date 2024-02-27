@@ -41,6 +41,10 @@ const sidebarNavItems = [
         href: `/dashboard/settings/templates`,
     },
     {
+        title: "API Keys",
+        href: "/dashboard/settings/apikeys"
+    },
+    {
         title: "Logs",
         href: `/dashboard/settings/logs`
     }
