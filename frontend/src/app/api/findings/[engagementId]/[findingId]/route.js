@@ -1,7 +1,7 @@
 import { authOptions } from "../../../auth/[...nextauth]/route"
 import { getServerSession } from "next-auth"
 
-// Delete vulnerability
+// Delete finding
 export async function DELETE(request, { params }) {
     const session = await getServerSession(authOptions)
     const accessToken = session.accessToken
