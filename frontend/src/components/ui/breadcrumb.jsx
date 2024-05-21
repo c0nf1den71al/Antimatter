@@ -1,113 +1,92 @@
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { Slot } from "@radix-ui/react-slot"
+import { ChevronRight, MoreHorizontal } from "lucide-react"
 
-import { cn, getValidChildren } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
-export const Breadcrumb = (
-  (
-    {
-      children,
-      className,
-      separator = <ChevronRight className="h-4 w-4" />,
-      addSeparator = true,
-      ...props
-    },
-    forwardedRef
-  ) => {
-    const validChildren = getValidChildren(children)
-    const clones = validChildren.map((child, index) => {
-      return React.cloneElement(child, {
-        addSeparator,
-        separator,
-        isLastChild: validChildren.length === index + 1,
-      })
-    })
-
-    return (
-      <nav
-        className={cn("relative break-words", className)}
-        aria-label="breadcrumb"
-        {...props}
-        ref={forwardedRef}
-      >
-        <ol className="flex items-center">{clones}</ol>
-      </nav>
-    )
-  }
+const Breadcrumb = React.forwardRef(
+  ({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />
 )
 Breadcrumb.displayName = "Breadcrumb"
 
+const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => (
+  <ol
+    ref={ref}
+    className={cn(
+      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
+      className
+    )}
+    {...props} />
+))
+BreadcrumbList.displayName = "BreadcrumbList"
 
-export const BreadcrumbItem = (
-  (
-    {
-      children,
-      className,
-      isCurrentPage,
-      isLastChild,
-      separator,
-      addSeparator,
-      ...props
-    },
-    forwardedRef
-  ) => {
-    const validChildren = getValidChildren(children)
-    const clones = validChildren.map((child) => {
-      if (child.type === BreadcrumbLink) {
-        return React.cloneElement(child, { isCurrentPage })
-      }
-
-      if (child.type === BreadcrumbSeparator) {
-        return React.cloneElement(child, {
-          children: separator || child.props.children,
-        })
-      }
-
-      return child
-    })
-
-    return (
-      <li
-        className={cn("inline-flex items-center", className)}
-        {...props}
-        ref={forwardedRef}
-      >
-        {clones}
-        {!isLastChild && addSeparator && (
-          <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
-        )}
-      </li>
-    )
-  }
-)
+const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => (
+  <li
+    ref={ref}
+    className={cn("inline-flex items-center gap-1.5", className)}
+    {...props} />
+))
 BreadcrumbItem.displayName = "BreadcrumbItem"
 
-export const BreadcrumbLink = (({ className, as: asComp, isCurrentPage, ...props }, forwardedRef) => {
-  const Comp = (isCurrentPage ? "span" : asComp || "a")
+const BreadcrumbLink = React.forwardRef(({ asChild, className, ...props }, ref) => {
+  const Comp = asChild ? Slot : "a"
 
   return (
-    <Comp
-      className={cn(
-        "text-sm font-medium underline-offset-4 aria-[current]:opacity-60 [&:not([aria-current])]:hover:underline",
-        className
-      )}
-      aria-current={isCurrentPage ? "page" : undefined}
-      {...props}
-      ref={forwardedRef}
-    />
-  )
+    (<Comp
+      ref={ref}
+      className={cn("transition-colors hover:text-foreground", className)}
+      {...props} />)
+  );
 })
 BreadcrumbLink.displayName = "BreadcrumbLink"
 
+const BreadcrumbPage = React.forwardRef(({ className, ...props }, ref) => (
+  <span
+    ref={ref}
+    role="link"
+    aria-disabled="true"
+    aria-current="page"
+    className={cn("font-normal text-foreground", className)}
+    {...props} />
+))
+BreadcrumbPage.displayName = "BreadcrumbPage"
 
-export const BreadcrumbSeparator = (({ className, ...props }, forwardedRef) => {
-  return (
-    <span
-      className={cn("mx-2 opacity-50", className)}
-      role="presentation"
-      {...props}
-      ref={forwardedRef}
-    />
-  )
-})
+const BreadcrumbSeparator = ({
+  children,
+  className,
+  ...props
+}) => (
+  <li
+    role="presentation"
+    aria-hidden="true"
+    className={cn("[&>svg]:size-3.5", className)}
+    {...props}>
+    {children ?? <ChevronRight />}
+  </li>
+)
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
+
+const BreadcrumbEllipsis = ({
+  className,
+  ...props
+}) => (
+  <span
+    role="presentation"
+    aria-hidden="true"
+    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    {...props}>
+    <MoreHorizontal className="h-4 w-4" />
+    <span className="sr-only">More</span>
+  </span>
+)
+BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
+
+export {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+}
