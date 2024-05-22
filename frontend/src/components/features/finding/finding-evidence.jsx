@@ -8,30 +8,28 @@ import { useCallback, useRef, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { TextEditor } from "@/components/shared/text-editor";
 
-export function FindingSummary({ engagementId, findingId }) {
+export function FindingEvidence({ engagementId, findingId }) {
   const { engagements, setEngagements, loadingEngagements } = useData();
 
   const engagement = engagements.filter(
     (engagement) => engagement._id == engagementId,
   )[0];
-
+  console.log(engagement);
   const finding = engagement?.findings.filter(
     (finding) => finding._id == findingId,
   )[0];
 
-  const summary = useRef(null);
+  const evidence = useRef(null);
   const { toast } = useToast();
 
   const submit = useCallback(async () => {
-    const editor = summary.current;
+    const editor = evidence.current;
 
-    // Handle the case where editor is null here...
-    //
-
+    // Handle the case where editor is null
     if (editor) {
       // const res = await fetch(`/api/vulnerabilities/${vulnerabilityId}`, {
       //     method: "POST",
-      //     body: JSON.stringify({summary: editor.children})
+      //     body: JSON.stringify({evidence: editor.children})
       // })
       // const data = await res.json()
       // let updatedVulnerabilities = [...vulnerabilities]
@@ -51,15 +49,15 @@ export function FindingSummary({ engagementId, findingId }) {
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [submit]);
+  }, []);
 
   return (
     <div className="space-y-6 h-full">
       <div className="flex flex-row justify-between items-center">
         <div>
-          <h3 className="text-lg font-medium">Summary</h3>
+          <h3 className="text-lg font-medium">Evidence</h3>
           <p className="text-sm text-muted-foreground">
-            Edit summary of a finding using the text editor below.
+            Edit the evidence of a finding using the text editor below.
           </p>
         </div>
         <div>
@@ -73,10 +71,10 @@ export function FindingSummary({ engagementId, findingId }) {
         </div>
       </div>
       <Separator />
-      {!loadingEngagements && finding?.summary ? (
+      {!loadingEngagements && finding?.evidence ? (
         <TextEditor
-          initialValue={JSON.parse(finding?.summary)}
-          editorRef={summary}
+          initialValue={JSON.parse(finding?.evidence)}
+          editorRef={evidence}
         />
       ) : (
         <span className="w-full flex items-center justify-center pt-6">

@@ -1,15 +1,9 @@
-import { columns } from "@/components/features/engagement/columns";
-import { FindingDetail } from "@/components/features/finding/finding-detail";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { SidebarNavigation } from "@/components/shared/sidebar-navigation";
-
+import { FindingEvidence } from "@/components/features/finding/finding-evidence";
 import { ArrowLeft } from "lucide-react";
 
-export const metadata = {
-  title: "Antimatter - Finding",
-};
-
-export default async function Engagement({ params }) {
+export default async function Evidence({ params }) {
   const breadcrumbItems = [
     {
       title: "Dashboard",
@@ -31,6 +25,10 @@ export default async function Engagement({ params }) {
     {
       title: params.findingId,
       type: "finding",
+      href: `/dashboard/engagements/${params.engagementId}/findings/${params.findingId}`,
+    },
+    {
+      title: "Evidence",
       isCurrentPage: true,
     },
   ];
@@ -69,19 +67,19 @@ export default async function Engagement({ params }) {
   ];
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <Breadcrumbs items={breadcrumbItems} />
-      <div className="flex pb-5 pt-10 flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+      <div className="flex pb-5 pt-10 space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 grow">
         <aside className="-mx-4 lg:w-1/6">
-          <SidebarNavigation items={sidebarNavItems} addButton={true} />
+          <SidebarNavigation items={sidebarNavItems} />
         </aside>
-        <div className="flex-1">
-          <FindingDetail
-            findingId={params.findingId}
+        <div className="flex-1 h-full relative">
+          <FindingEvidence
             engagementId={params.engagementId}
+            findingId={params.findingId}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
