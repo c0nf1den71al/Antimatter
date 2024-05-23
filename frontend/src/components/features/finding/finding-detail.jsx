@@ -1,32 +1,3 @@
-// "use client"
-
-// import { Button } from "@/components/ui/button"
-// import { Separator } from "@/components/ui/separator"
-// import { ScrollArea } from "@/components/ui/scroll-area"
-// import { TextEditor } from "@/components/shared/text-editor"
-// export function FindingDetail({ findingId }) {
-//     return (
-//         <div className="space-y-6">
-//             <div className="flex flex-row justify-between items-center">
-//                 <div>
-//                     <h3 className="text-lg font-medium">Finding</h3>
-//                     <p className="text-sm text-muted-foreground">
-//                         Change details relating to a finding using the form below.
-//                     </p>
-//                 </div>
-//                 <div>
-//                     <Button onClick={() => { form.handleSubmit(onSubmit)() }}>Save (ctrl+s)</Button>
-//                 </div>
-//             </div>
-//             <Separator />
-//             <TextEditor />
-//         </div>
-//     )
-// }
-//
-//
-//
-
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -74,7 +45,7 @@ export function FindingDetail({ engagementId, findingId }) {
   const form = useForm();
   const { toast } = useToast();
 
-  const engagement = engagements.filter(
+  let engagement = engagements.filter(
     (engagement) => engagement._id == engagementId,
   )[0];
 
@@ -88,21 +59,27 @@ export function FindingDetail({ engagementId, findingId }) {
 
   async function onSubmit(values) {
     let postBody = values;
+    const oldIdentifier = finding.findingIdentifier;
 
-    // const res = await fetch(`/api/vulnerabilities/${vulnerabilityId}`, {
-    //   method: "POST",
-    //   body: JSON.stringify(postBody),
-    // });
+    const res = await fetch(`/api/findings/${engagementId}/${findingId}`, {
+      method: "POST",
+      body: JSON.stringify(postBody),
+    });
 
-    // const data = await res.json();
-    // setVulnerabilities([
-    //   ...vulnerabilities.filter(
-    //     (vulnerability) => vulnerability._id !== vulnerabilityId,
-    //   ),
-    //   data,
-    // ]);
+    const data = await res.json();
+
+    engagement.findings = [
+      ...engagement.findings.filter((finding) => finding._id !== findingId),
+      data,
+    ];
+
+    setEngagements([
+      ...engagements.filter((engagement) => engagement._id !== engagementId),
+      engagement,
+    ]);
+
     toast({
-      description: `Finding "${data.findingIdentifier}" has been updated successfully.`,
+      description: `Finding "${oldIdentifier}" has been updated successfully.`,
     });
   }
 
@@ -122,7 +99,7 @@ export function FindingDetail({ engagementId, findingId }) {
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [engagements]);
+  }, [finding]);
 
   return (
     <div className="space-y-6 h-full">

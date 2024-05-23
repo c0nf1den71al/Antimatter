@@ -11,8 +11,8 @@ import { TextEditor } from "@/components/shared/text-editor";
 export function FindingSummary({ engagementId, findingId }) {
   const { engagements, setEngagements, loadingEngagements } = useData();
 
-  const engagement = engagements.filter(
-    (engagement) => engagement._id == engagementId,
+  let engagement = engagements.filter(
+    (engagement) => engagement._id === engagementId,
   )[0];
 
   const finding = engagement?.findings.filter(
@@ -29,17 +29,28 @@ export function FindingSummary({ engagementId, findingId }) {
     //
 
     if (editor) {
-      // const res = await fetch(`/api/vulnerabilities/${vulnerabilityId}`, {
-      //     method: "POST",
-      //     body: JSON.stringify({summary: editor.children})
-      // })
-      // const data = await res.json()
-      // let updatedVulnerabilities = [...vulnerabilities]
-      // updatedVulnerabilities[vulnerabilities.findIndex(vulnerability => vulnerability._id === vulnerabilityId)] = data
-      // setVulnerabilities(updatedVulnerabilities)
-      // toast({ description: `Vulnerability "${data.vulnerabilityIdentifier}" has been updated successfully.` })
+      const res = await fetch(`/api/findings/${engagementId}/${findingId}`, {
+        method: "POST",
+        body: JSON.stringify({ summary: editor.children }),
+      });
+
+      const data = await res.json();
+
+      engagement.findings = [
+        ...engagement.findings.filter((finding) => finding._id !== findingId),
+        data,
+      ];
+
+      setEngagements([
+        ...engagements.filter((engagement) => engagement._id !== engagementId),
+        engagement,
+      ]);
+
+      toast({
+        description: `Finding "${data.findingIdentifier}" has been updated successfully.`,
+      });
     }
-  }, []);
+  }, [engagement, setEngagements]);
 
   useEffect(() => {
     const down = (e) => {

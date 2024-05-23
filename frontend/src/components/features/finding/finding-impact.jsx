@@ -8,7 +8,7 @@ import { useCallback, useRef, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { TextEditor } from "@/components/shared/text-editor";
 
-export function FindingEvidence({ engagementId, findingId }) {
+export function FindingImpact({ engagementId, findingId }) {
   const { engagements, setEngagements, loadingEngagements } = useData();
 
   let engagement = engagements.filter(
@@ -19,11 +19,11 @@ export function FindingEvidence({ engagementId, findingId }) {
     (finding) => finding._id == findingId,
   )[0];
 
-  const evidence = useRef(null);
+  const impact = useRef(null);
   const { toast } = useToast();
 
   const submit = useCallback(async () => {
-    const editor = evidence.current;
+    const editor = impact.current;
 
     // Handle the case where editor is null
     //
@@ -31,7 +31,7 @@ export function FindingEvidence({ engagementId, findingId }) {
     if (editor) {
       const res = await fetch(`/api/findings/${engagementId}/${findingId}`, {
         method: "POST",
-        body: JSON.stringify({ evidence: editor.children }),
+        body: JSON.stringify({ impact: editor.children }),
       });
 
       const data = await res.json();
@@ -68,9 +68,9 @@ export function FindingEvidence({ engagementId, findingId }) {
     <div className="space-y-6 h-full">
       <div className="flex flex-row justify-between items-center">
         <div>
-          <h3 className="text-lg font-medium">Evidence</h3>
+          <h3 className="text-lg font-medium">Impact</h3>
           <p className="text-sm text-muted-foreground">
-            Edit the evidence of a finding using the text editor below.
+            Edit the impact of a finding using the text editor below.
           </p>
         </div>
         <div>
@@ -84,10 +84,10 @@ export function FindingEvidence({ engagementId, findingId }) {
         </div>
       </div>
       <Separator />
-      {!loadingEngagements && finding?.evidence ? (
+      {!loadingEngagements && finding?.impact ? (
         <TextEditor
-          initialValue={JSON.parse(finding?.evidence)}
-          editorRef={evidence}
+          initialValue={JSON.parse(finding?.impact)}
+          editorRef={impact}
         />
       ) : (
         <span className="w-full flex items-center justify-center pt-6">
