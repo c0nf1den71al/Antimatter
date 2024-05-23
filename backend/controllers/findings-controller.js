@@ -1,7 +1,7 @@
-const { default: mongoose } = require("mongoose");
 const Engagement = require("../models/Engagement");
 const Vulnerability = require("../models/Vulnerability");
 const { createLog } = require("../lib/utils");
+const mongoose = require("mongoose");
 
 module.exports.getFindings = async (req, res) => {
   try {
@@ -113,6 +113,7 @@ module.exports.updateFinding = async (req, res) => {
       severity = undefined,
       title = undefined,
       category = undefined,
+      status = undefined,
       summary = undefined,
       evidence = undefined,
       impact = undefined,
@@ -123,13 +124,21 @@ module.exports.updateFinding = async (req, res) => {
     if (evidence) evidence = JSON.stringify(evidence);
     if (remediation) remediation = JSON.stringify(remediation);
     if (impact) impact = JSON.stringify(impact);
+
+    const engagement = await Engagement.findById(req.params.engagementId);
+
+    let finding = engagement.findings.find(
+      (finding) => finding._id == req.params.findingId,
+    );
+
     const updateObject = Object.assign(
-      {},
+      finding,
       ...Object.entries({
         findingIdentifier,
         severity,
         title,
         category,
+        status,
         summary,
         evidence,
         impact,
@@ -140,22 +149,33 @@ module.exports.updateFinding = async (req, res) => {
     );
 
     if (Object.keys(updateObject).length > 0) {
-      // TODO: This needs to update just finding, not whole vuln...
-      const vulnerability = await Vulnerability.findByIdAndUpdate(
-        req.params.vulnerabilityId,
-        updateObject,
+      const newEngagement = await Engagement.findOneAndUpdate(
+        {
+          _id: new mongoose.Types.ObjectId(req.params.engagementId),
+          "findings._id": new mongoose.Types.ObjectId(req.params.findingId),
+        },
+        {
+          $set: {
+            "findings.$": updateObject,
+          },
+        },
         { new: true },
       );
+
+      const newFinding = newEngagement.findings.find(
+        (finding) => finding._id.toString() === req.params.findingId,
+      );
+
       createLog(
         "info",
-        `The vulnerability "${vulnerabilityIdentifier}" was updated successfully`,
+        `The finding "${newFinding.findingIdentifier}" was updated successfully`,
       );
-      res.json(vulnerability);
+      return res.json(newFinding);
     } else {
       return res.json({ error: "Please specify a field to update" });
     }
   } catch (e) {
     console.log(e);
-    return res.json({ error: "An error occured" }).status(500);
+    return res.json({ error: "An error occured." }).status(500);
   }
 };
