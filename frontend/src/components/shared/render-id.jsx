@@ -29,7 +29,7 @@ export function RenderId({ id, type }) {
   };
 
   if (type === "engagement") {
-    if (loadingEngagements || !engagements) {
+    if (!engagements) {
       return <Skeleton className="h-4 w-[150px]" />;
     } else {
       const engagement = engagements.find(
@@ -42,7 +42,7 @@ export function RenderId({ id, type }) {
       }
     }
   } else if (type === "client") {
-    if (loadingClients || !clients) {
+    if (!clients) {
       return <Skeleton className="h-4 w-[150px]" />;
     } else {
       const client = clients.find((client) => client._id === id);
@@ -53,7 +53,7 @@ export function RenderId({ id, type }) {
       }
     }
   } else if (type === "finding") {
-    if (loadingEngagements || !engagements) {
+    if (!engagements) {
       return <Skeleton className="h-4 w-[150px]" />;
     } else {
       const finding = findFindingById(id);
@@ -65,7 +65,7 @@ export function RenderId({ id, type }) {
       }
     }
   } else if (type === "vulnerability") {
-    if (loadingVulnerabilities || !vulnerabilities) {
+    if (!vulnerabilities) {
       return <Skeleton className="h-4 w-[150px]" />;
     } else {
       const vulnerability = vulnerabilities.find(
