@@ -110,17 +110,50 @@ export const columns = [
 
       const deleteTemplate = async (templateId) => {
         try {
-          const req = await fetch(`/api/templates/${templateId}`, {
+          const res = await fetch(`/api/templates/${templateId}`, {
             method: "DELETE",
           });
-          const data = await req.json();
+
+          const data = await res.json();
 
           setTemplates(
             templates.filter((template) => template._id !== templateId),
           );
+
           toast({
-            description: `Template "${data.title}" has been deleted.`,
+            description: `Template "${data.metadata.title}" has been deleted.`,
           });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const downloadTemplate = async (templateId) => {
+        try {
+          const res = await fetch(`/api/templates/${templateId}`, {
+            method: "GET",
+          });
+
+          if (!res.ok) {
+            throw new Error("Failed to download file");
+          }
+
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const contentDisposition = res.headers.get("Content-Disposition");
+          const filename = contentDisposition
+            ? contentDisposition.split("filename=")[1].replace(/['"]/g, "")
+            : "downloaded_file";
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+
+          // Revoke the object URL after the download
+          window.URL.revokeObjectURL(url);
         } catch (error) {
           console.log(error);
         }
@@ -148,6 +181,7 @@ export const columns = [
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
+                downloadTemplate(originalRow._id);
               }}
             >
               Download Template

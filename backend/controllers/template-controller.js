@@ -63,9 +63,32 @@ module.exports.downloadTemplate = async (req, res) => {
 
     downloadStream.on("file", (file) => {
       res.set("Content-Type", file.metadata.mimetype);
+      res.set("Content-Disposition", `attachment; filename="${file.filename}"`);
     });
 
     downloadStream.pipe(res);
+  } catch (e) {
+    return res.json(e);
+  }
+};
+
+module.exports.deleteTemplate = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const file = await bucket
+      .find({ _id: new mongoose.Types.ObjectId(id) })
+      .toArray();
+
+    console.log(file);
+
+    bucket.delete(new mongoose.Types.ObjectId(id), (err) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+    });
+
+    return res.status(200).json(file[0]);
   } catch (e) {
     return res.json(e);
   }
