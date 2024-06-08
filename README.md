@@ -68,6 +68,7 @@ This section lists any major frameworks/libraries used to make this project happ
 
 * React Framework: [Next.js](https://nextjs.org)
 * Component Library: [shadcn/ui](https://ui.shadcn.com)
+* Charts: [tremor](https://www.tremor.so/components)
 * Icons: [Lucide](https://lucide.dev)
 * Collaboration: [Liveblocks](https://liveblocks.io)
 * Database: [MongoDB](https://www.mongodb.com)
